@@ -30,6 +30,7 @@ class HomePageState extends State<HomePage> {
       appBar: getAppBar(),
       body: PageView.builder(
         controller: _pageController,
+        physics: NeverScrollableScrollPhysics(), // This line disables swipe gestures.
         itemCount: items.length,
         itemBuilder: (context, index) {
           return _buildProfilePage(items[index]);
@@ -37,6 +38,7 @@ class HomePageState extends State<HomePage> {
       ),
     );
   }
+
 
   AppBar getAppBar() {
     return AppBar(
