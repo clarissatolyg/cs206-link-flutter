@@ -4,6 +4,11 @@ import 'package:link_flutter/components/match_title.dart';
 import 'package:link_flutter/dummy_data/match_page_json.dart';
 import 'package:link_flutter/utils/constant.dart';
 import 'package:flutter/material.dart';
+import 'package:link_flutter/theme/color.dart';
+import 'package:link_flutter/components/circle_button.dart';
+
+import '../components/profile_view.dart';
+
 
 class MatchPage extends StatelessWidget {
   const MatchPage({ Key? key }) : super(key: key);
@@ -14,7 +19,7 @@ class MatchPage extends StatelessWidget {
 
     return Scaffold(
       appBar: getAppBar(),
-      body: getBody(size),
+      body: getBody(size, context),
     );
   }
 
@@ -27,7 +32,7 @@ class MatchPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "Matches",
+                "People Who Liked You",
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold
@@ -44,14 +49,14 @@ class MatchPage extends StatelessWidget {
     ); 
   }
 
-  Widget getBody(Size size) {
+  Widget getBody(Size size, BuildContext context) {
     return ListView(
       padding: EdgeInsets.symmetric(horizontal: defaultPadding),
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(vertical: defaultMediumPadding),
           child: Text(
-            "This is a list of people who have liked you and your matches.",
+            "This is a list of people who have liked you.",
             style: TextStyle(fontSize: 16, height: 1.5),
           ),
         ),
@@ -61,9 +66,19 @@ class MatchPage extends StatelessWidget {
           spacing: 15,
           runSpacing: 15,
           children: List.generate(todayMatchItems.length, (index) {
-            return MatchCard(
-              width: (size.width - 55) / 2,
-              itemList: todayMatchItems[index],
+            return GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ProfileView(userId: todayMatchItems[index]['userId']),
+                  ),
+                );
+              },
+              child: MatchCard(
+                width: (size.width - 55) / 2,
+                itemList: todayMatchItems[index],
+              ),
             );
           }),
         ),
@@ -74,14 +89,26 @@ class MatchPage extends StatelessWidget {
           spacing: 15,
           runSpacing: 15,
           children: List.generate(yesterdayMatchItems.length, (index) {
-            return MatchCard(
-              width: (size.width - 55) / 2,
-              itemList: yesterdayMatchItems[index],
+            return GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ProfileView(userId: yesterdayMatchItems[index]['userId']),
+                  ),
+                );
+              },
+              child: MatchCard(
+                width: (size.width - 55) / 2,
+                itemList: yesterdayMatchItems[index],
+              ),
             );
           }),
         ),
+
         SizedBox(height: defaultPadding,),
       ],
     );
   }
+
 }
