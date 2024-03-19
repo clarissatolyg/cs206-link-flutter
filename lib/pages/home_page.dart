@@ -6,7 +6,7 @@ import 'package:link_flutter/utils/constant.dart';
 import 'package:link_flutter/components/box_svg_button.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -82,6 +82,7 @@ class _HomePageState extends State<HomePage> {
       children: [
         _buildProfileImage(profile['imageUrl']),
         _buildProfileInfo(profile),
+        Text("Instagram", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
         _buildInstagramImages(instagramImages),
         _buildActionButtons(),
       ],
@@ -110,27 +111,32 @@ class _HomePageState extends State<HomePage> {
           SizedBox(height: 8.0),
           Text(profile['passion']),
           SizedBox(height: 4.0),
-          Text(profile['distance']),
+          Text(profile['quote'], style: TextStyle(fontSize: 12)),
+          SizedBox(height: 4.0),
         ],
       ),
     );
   }
 
-  Widget _buildInstagramImages(List<String> instagramImages) {
-    return Container(
-      height: 100, // Fixed height for the horizontal list.
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: instagramImages.length,
-        itemBuilder: (context, index) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 4.0),
+Widget _buildInstagramImages(List<String> instagramImages) {
+  return SizedBox(
+    height: 100, // Fixed height for the horizontal list.
+    child: ListView.builder(
+      scrollDirection: Axis.horizontal,
+      itemCount: instagramImages.length,
+      itemBuilder: (context, index) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 2.0),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(8.0),
             child: Image.asset(instagramImages[index], fit: BoxFit.cover),
-          );
-        },
-      ),
-    );
-  }
+          ),
+        );
+      },
+    ),
+  );
+}
+
 
   Widget _buildActionButtons() {
     return Padding(
