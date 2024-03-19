@@ -8,8 +8,8 @@ const List discoverItems = [
     "distance": "1 km",
     "quote":
         "If you're into deep conversations over a cup of coffee and spontaneous weekend getaways, let's chat.",
-    "interests": "Fashion, Travel, Music",
-    "music genre": "Pop, Rock, Jazz",
+    "interests": "Fashion, Travel, Music, Books, Movies",
+    "musicGenre": "Pop, Rock, Jazz",
     "instagram": {
       "assets/images/img1.jpg",
       "assets/images/img2.jpg",
@@ -28,7 +28,7 @@ const List discoverItems = [
     "quote":
         "If you're passionate about life, love deep conversations, and enjoy spontaneous adventures, let's make memories together.",
     "interests": "Fashion, Travel, Music",
-    "music genre": "Pop, Rock, Jazz",
+    "musicGenre": "Pop, Rock, Jazz",
     "instagram": {"assets/images/img4.jpg", "assets/images/img5.jpg"}
   },
   {
@@ -40,7 +40,7 @@ const List discoverItems = [
     "distance": "2 km",
     "quote": "Seeking someone who appreciates both quiet nights in binge-watching Netflix and spontaneous trips to new places",
     "interests": "Fashion, Travel, Music",
-    "music genre": "Pop, Rock, Jazz",
+    "musicGenre": "Pop, Rock, Jazz",
     "instagram": {"assets/images/img6.jpg", "assets/images/img7.jpg"}
   },
   {
@@ -52,7 +52,7 @@ const List discoverItems = [
     "distance": "2 km",
     "quote": "Looking for someone who can keep up with my wanderlust and match my zest for life.",
     "interests": "Fashion, Travel, Music",
-    "music genre": "Pop, Rock, Jazz",
+    "musicGenre": "Pop, Rock, Jazz",
     "instagram": {"assets/images/img8.jpg", "assets/images/img9.jpg"}
   },
 ];
