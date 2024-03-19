@@ -2,9 +2,11 @@ import 'widgets/horizontal_item_widget.dart';
 import 'models/horizontal_item_model.dart';
 import 'package:link/widgets/custom_icon_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:link/core/app_export.dart';
 import 'controller/swipe_main_controller.dart';
 import 'models/swipe_main_model.dart';
+import 'package:link/presentation/linked_overlay_screen/linked_overlay_screen.dart';
 
 class SwipeMainPage extends StatelessWidget {
   SwipeMainPage({Key? key})
@@ -18,18 +20,18 @@ class SwipeMainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SingleChildScrollView(
-          child: Container(
+      body: SingleChildScrollView(
+        child: Container(
           width: double.maxFinite,
           decoration: AppDecoration.background,
-          child: _buildScrollView(),
-          ),
+          child: _buildScrollView(context),
+        ),
       ),
     );
   }
 
   /// Section Widget
-  Widget _buildScrollView() {
+  Widget _buildScrollView(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -378,6 +380,46 @@ class SwipeMainPage extends StatelessWidget {
                       image: ImageConstant.imgRectangle2071x104,
                       image1: ImageConstant.imgRectangle21141x104,
                     ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Positioned(
+            left: 0,
+            right: 0,
+            bottom: 0,
+            child: Padding(
+              padding: EdgeInsets.all(16.0), // Add padding as needed
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  FloatingActionButton(
+                    onPressed: () {
+                      // Handle 'No' action
+                    },
+                    child: SvgPicture.asset(
+                      'assets/images/img_close.svg', // Replace with your actual asset path
+                      width: 24, // Adjust the size as needed
+                      height: 24,
+                    ),
+                    backgroundColor: Colors.transparent, // No background color
+                    elevation: 0, // No shadow
+                  ),
+                  FloatingActionButton(
+                    onPressed: () {
+                      // Navigate to LinkedOverlayScreen when the button is pressed
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => LinkedOverlayScreen(),
+                      ));
+                    },
+                    child: SvgPicture.asset(
+                      'assets/images/img_favorite.svg', // Replace with your actual asset path
+                      width: 24, // Adjust the size as needed
+                      height: 24,
+                    ),
+                    backgroundColor: Colors.transparent, // No background color
+                    elevation: 0, // No shadow
                   ),
                 ],
               ),

@@ -16,24 +16,30 @@ class SwipeMainContainerScreen extends GetWidget<SwipeMainContainerController> {
           preferredSize: Size.fromHeight(70.0), // You can adjust the height as needed
           child: _buildTopBar(context), // This will create a top navigation bar
         ),
-        body: Navigator(
-          key: Get.nestedKey(1),
-          initialRoute: AppRoutes.swipeMainPage,
-          onGenerateRoute: (routeSetting) => GetPageRoute(
-            page: () => getCurrentPage(routeSetting.name!),
-            transition: Transition.noTransition,
-          ),
+        body: Stack( // Add Stack here
+          children: [
+            Navigator(
+              key: Get.nestedKey(1),
+              initialRoute: AppRoutes.swipeMainPage,
+              onGenerateRoute: (routeSetting) => GetPageRoute(
+                page: () => getCurrentPage(routeSetting.name!),
+                transition: Transition.noTransition,
+              ),
+            ),
+          ],
         ),
-        // Removed the bottomNavigationBar property because we're moving it to the top
       ),
     );
   }
 
+
   Widget _buildTopBar(BuildContext context) {
     // Wrap your existing bottom bar code inside an AppBar for it to be at the top
     return AppBar(
-      title: _buildBottomBar(), // Your CustomBottomBar is now at the top as a title
-      backgroundColor: Colors.transparent, // Set to transparent if you want the AppBar to blend with your page
+      title:
+          _buildBottomBar(), // Your CustomBottomBar is now at the top as a title
+      backgroundColor: Colors
+          .transparent, // Set to transparent if you want the AppBar to blend with your page
       elevation: 0, // Removes shadow below the AppBar
       centerTitle: true, // If you want the title to be centered
     );

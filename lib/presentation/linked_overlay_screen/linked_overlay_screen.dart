@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:link/core/app_export.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'controller/linked_overlay_controller.dart';
+import 'package:link/presentation/swipe_main_page/swipe_main_page.dart';
 
 class LinkedOverlayScreen extends GetWidget<LinkedOverlayController> {
   const LinkedOverlayScreen({Key? key}) : super(key: key);
@@ -24,8 +26,18 @@ class LinkedOverlayScreen extends GetWidget<LinkedOverlayController> {
                           alignment: Alignment.centerLeft,
                           margin: EdgeInsets.only(left: 22.h),
                           onTap: () {
-                            onTapImgClose();
+                            onTapImgClose(context);
                           }),
+                      // FloatingActionButton(
+                      //   onPressed: onTapImgClose, // This assumes onTapImgClose is defined somewhere in your code.
+                      //   child: SvgPicture.asset(
+                      //     'assets/images/img_close.svg', // Replace with your actual SVG asset path
+                      //     height: 24, // Adjust the size as needed
+                      //     width: 24,
+                      //   ),
+                      //   backgroundColor: Colors.transparent, // No background color for a floating look
+                      //   elevation: 0, // Removes shadow
+                      // ),
                       SizedBox(height: 58.v),
                       _buildTwentySix(),
                       SizedBox(height: 38.v),
@@ -109,7 +121,11 @@ class LinkedOverlayScreen extends GetWidget<LinkedOverlayController> {
   }
 
   /// Navigates to the previous screen.
-  onTapImgClose() {
-    Get.back();
+  onTapImgClose(BuildContext context) {// If you're using GetX for navigation
+    // Get.back();
+    // Navigate to LinkedOverlayScreen when the button is pressed
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (context) => SwipeMainPage(),
+    ));
   }
 }
