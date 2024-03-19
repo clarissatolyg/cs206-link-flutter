@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:link_flutter/dummy_data/home_page_json.dart'; // Ensure this import points to your actual data
 import 'package:link_flutter/components/circle_button.dart';
@@ -21,7 +20,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    items = discoverItems; // Assuming this is your data source
+    items = discoverItems;
   }
 
   @override
@@ -79,8 +78,7 @@ class _HomePageState extends State<HomePage> {
     List<String> instagramImages = profile['instagram'].toList();
 
     return ListView(
-      padding: const EdgeInsets.all(
-          16.0), // Apply padding around the ListView content.
+      padding: const EdgeInsets.all(16.0),
       children: [
         _buildProfileImage(profile['imageUrl']),
         _buildProfileInfo(profile),
@@ -170,10 +168,6 @@ class _HomePageState extends State<HomePage> {
         _pageController.page! < items.length - 1) {
       _pageController.nextPage(
           duration: Duration(milliseconds: 200), curve: Curves.easeIn);
-    } else {
-      // Optionally, handle the case when the user is at the last profile (e.g., show a dialog or loop back to the first profile).
-      // For example, to loop back to the first profile:
-      // _pageController.jumpToPage(0);
-    }
+    } else {}
   }
 }
