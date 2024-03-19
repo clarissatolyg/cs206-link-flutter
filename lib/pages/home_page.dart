@@ -77,78 +77,93 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildProfilePage(Map<String, dynamic> profile) {
-    // Convert the Set to a List for easier indexing
+    // Convert the Set to a List for easier indexing.
     List<String> instagramImages = profile['instagram'].toList();
 
     return ListView(
+      padding: const EdgeInsets.all(
+          16.0), // Apply padding around the ListView content.
       children: [
-        SizedBox(
-          height: MediaQuery.of(context).size.height - 150,
-          child: Column(
-            children: [
-              Expanded(
-                child: Image.network(
-                  profile['imageUrl'],
-                  fit: BoxFit.cover,
-                ),
-              ),
-              Align(
-                alignment: Alignment.centerLeft, // Align to the left
-                child: Column(children: [
-                  Text(
-                    "${profile['name']}, ${profile['age']}",
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                  ),
-                ]),
-              ),
-            ],
-          ),
-        ),
-        Container(
-          height: 100, // Fixed height for the horizontal list
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: instagramImages.length,
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                child: Image.asset(instagramImages[index], fit: BoxFit.cover),
-              );
-            },
-          ),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            CircleButton(
-              onTap: () {
-                _goToNextProfile();
-              },
-              bgColor: white,
-              shadowColor: black.withOpacity(0.2),
-              svgPicture: "assets/images/dislike.svg",
-            ),
-            CircleButton(
-              onTap: () {
-                _goToNextProfile();
-              },
-              height: 99,
-              width: 99,
-              bgColor: primary,
-              shadowColor: primary.withOpacity(0.3),
-              svgPicture: "assets/images/like.svg",
-            ),
-            CircleButton(
-              onTap: () {
-                _goToNextProfile();
-              },
-              bgColor: white,
-              shadowColor: black.withOpacity(0.2),
-              svgPicture: "assets/images/super_like.svg",
-            ),
-          ],
-        ),
+        _buildProfileImage(profile['imageUrl']),
+        _buildProfileInfo(profile),
+        _buildInstagramImages(instagramImages),
+        _buildActionButtons(),
       ],
+    );
+  }
+
+  Widget _buildProfileImage(String imageUrl) {
+    return Container(
+      height: MediaQuery.of(context).size.height *
+          0.6, // Adjust the height as necessary.
+      width: double.infinity,
+      child: Image.network(imageUrl, fit: BoxFit.cover),
+    );
+  }
+
+  Widget _buildProfileInfo(Map<String, dynamic> profile) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "${profile['name']}, ${profile['age']}",
+            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          ),
+          SizedBox(height: 8.0),
+          Text(profile['passion']),
+          SizedBox(height: 4.0),
+          Text(profile['distance']),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildInstagramImages(List<String> instagramImages) {
+    return Container(
+      height: 100, // Fixed height for the horizontal list.
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: instagramImages.length,
+        itemBuilder: (context, index) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 4.0),
+            child: Image.asset(instagramImages[index], fit: BoxFit.cover),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _buildActionButtons() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 16.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          _buildCircleButton(
+              "assets/images/cross.svg", () => _goToNextProfile()),
+          _buildCircleButton("assets/images/link.svg", () => _goToNextProfile(),
+              isLarge: true),
+          _buildCircleButton(
+              "assets/images/like.svg", () => _goToNextProfile()),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCircleButton(String svgPath, VoidCallback onTap,
+      {bool isLarge = false}) {
+    return CircleButton(
+      onTap: onTap,
+      bgColor: Color(0xFFCB9CFC),
+      shadowColor: black.withOpacity(0.2),
+      svgPicture: svgPath,
+      svgHeight: isLarge ? 60 : 24,
+      svgWidth: isLarge ? 60 : 24,
+      height: isLarge ? 99 : 60, 
+      width: isLarge ? 99 : 60, 
     );
   }
 
