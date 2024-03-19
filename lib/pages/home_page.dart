@@ -1,43 +1,44 @@
-import 'package:link_flutter/components/box_svg_button.dart';
-import 'package:link_flutter/components/circle_button.dart';
-import 'package:link_flutter/components/discover_card.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:link_flutter/dummy_data/home_page_json.dart';
+import 'package:link_flutter/components/circle_button.dart';
 import 'package:link_flutter/theme/color.dart';
 import 'package:link_flutter/utils/constant.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_swipecards/flutter_swipecards.dart';
+import 'package:link_flutter/components/box_svg_button.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({ Key? key }) : super(key: key);
+  const HomePage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  HomePageState createState() => HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
-  CardController controller = CardController();
+class HomePageState extends State<HomePage> {
+  final PageController _pageController = PageController();
 
   List items = [];
-  int itemLength = 0;
 
   @override
   void initState() {
     super.initState();
-    setState(() {
-      items = discoverItems;
-      itemLength = discoverItems.length;
-    });
+    items = discoverItems;
   }
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-
     return Scaffold(
       appBar: getAppBar(),
-      body: getBody(size),
+      body: PageView.builder(
+        controller: _pageController,
+        physics: NeverScrollableScrollPhysics(), // This line disables swipe gestures.
+        itemCount: items.length,
+        itemBuilder: (context, index) {
+          return _buildProfilePage(items[index]);
+        },
+      ),
     );
   }
+
 
   AppBar getAppBar() {
     return AppBar(
@@ -53,21 +54,21 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     Text(
                       "Discover",
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold
-                      ),
+                      style:
+                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                     ),
-                    Text("Phnom Penh", style: TextStyle(fontSize: 12),)
+                    Text(
+                      "Phnom Penh",
+                      style: TextStyle(fontSize: 12),
+                    )
                   ],
                 ),
               ),
               Expanded(
-                child: BoxSvgButton(
-                  onTap: () {},
-                  svgPicture: "assets/images/filter.svg",
-                )
-              ),
+                  child: BoxSvgButton(
+                onTap: () {},
+                svgPicture: "assets/images/filter.svg",
+              )),
             ],
           ),
         ),
@@ -75,65 +76,158 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget getBody(Size size) {
-    return Column(
+  Widget _buildProfilePage(Map<String, dynamic> profile) {
+    List<String> instagramImages = profile['instagram'].toList();
+
+    return ListView(
+      padding: const EdgeInsets.all(16.0),
       children: [
-        Expanded(
-          flex: 4,
-          child: TinderSwapCard(
-            cardController: controller,
-            maxHeight: size.height * 0.75,
-            maxWidth: size.width,
-            minHeight: size.height * 0.5,
-            minWidth: size.width * 0.8,
-            orientation: AmassOrientation.top,
-            swipeUp: true,
-            swipeDown: true,
-            stackNum: 2,
-            totalNum: itemLength,
-            cardBuilder: (context, index) {
-              return DiscoverCard(
-                itemList: items[index], 
-              );
-            },
-            swipeCompleteCallback: (CardSwipeOrientation orientation, int index) {
-              if(index == (items.length - 1)) {
-                setState(() {
-                  itemLength = items.length - 1;
-                });
-              }
-            },
-          ) 
-        ),
-        Expanded(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              CircleButton(
-                onTap: () {},
-                bgColor: white,
-                shadowColor: black.withOpacity(0.2),
-                svgPicture: "assets/images/dislike.svg",
-              ),
-              CircleButton(
-                onTap: () {},
-                height: 99,
-                width: 99,
-                bgColor: primary,
-                shadowColor: primary.withOpacity(0.3),
-                svgPicture: "assets/images/like.svg",
-              ),
-              CircleButton(
-                onTap: () {},
-                bgColor: white,
-                shadowColor: black.withOpacity(0.2),
-                svgPicture: "assets/images/super_like.svg",
-              ),
-            ],
-          ),
-        )
+        _buildProfileImage(profile['imageUrl']),
+        _buildProfileInfo(profile),
+        Text("Instagram",
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+        _buildInstagramImages(instagramImages),
+        _buildActionButtons(),
       ],
     );
+  }
+
+  Widget _buildProfileImage(String imageUrl) {
+    return SizedBox(
+      height: MediaQuery.of(context).size.height *
+          0.6, // Adjust the height as necessary.
+      width: double.infinity,
+      child: Image.network(imageUrl, fit: BoxFit.cover),
+    );
+  }
+
+  Widget _buildProfileInfo(Map<String, dynamic> profile) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "${profile['name']}, ${profile['age']}",
+            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          ),
+          SizedBox(height: 8.0),
+          Text(profile['passion'],
+              style: TextStyle(fontSize: 16)),
+          SizedBox(height: 8.0),
+          Text("Interests",
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+          _buildInterests(profile),
+          SizedBox(height: 8.0),
+          Text("Music Genre",
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+          _buildMusicGenre(profile),
+          SizedBox(height: 4.0),
+          Text(profile['quote'], style: TextStyle(fontSize: 12)),
+          SizedBox(height: 4.0),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildInterests(Map<String, dynamic> profile) {
+    List<String> interests = profile['interests'].split(', ');
+
+    return SizedBox(
+        height: 50,
+        child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          itemCount: interests.length,
+          itemBuilder: (context, index) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4.0),
+              child: Chip(
+                label: Text(interests[index]),
+                backgroundColor: Colors.white,
+                elevation: 1.0,
+                shadowColor: black,
+                side: BorderSide.none,
+              ),
+            );
+          },
+        ));
+  }
+
+  Widget _buildMusicGenre(Map<String, dynamic> profile) {
+    List<String> genres = profile['musicGenre'].split(', ');
+    return SizedBox(
+        height: 40,
+        child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          itemCount: genres.length,
+          itemBuilder: (context, index) {
+            return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                child: Chip(
+                    label: Text(genres[index]),
+                    backgroundColor: Colors.white,
+                    elevation: 1.0,
+                    shadowColor: black,
+                    side: BorderSide.none));
+          },
+        ));
+  }
+
+  Widget _buildInstagramImages(List<String> instagramImages) {
+    return SizedBox(
+      height: 100, // Fixed height for the horizontal list.
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: instagramImages.length,
+        itemBuilder: (context, index) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 4.0),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(8.0),
+              child: Image.asset(instagramImages[index], fit: BoxFit.cover),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _buildActionButtons() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 16.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          _buildCircleButton(
+              "assets/images/cross.svg", () => _goToNextProfile()),
+          _buildCircleButton("assets/images/link.svg", () => _goToNextProfile(),
+              isLarge: true),
+          _buildCircleButton(
+              "assets/images/like.svg", () => _goToNextProfile()),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCircleButton(String svgPath, VoidCallback onTap,
+      {bool isLarge = false}) {
+    return CircleButton(
+      onTap: onTap,
+      bgColor: Color(0xFFCB9CFC),
+      shadowColor: black.withOpacity(0.2),
+      svgPicture: svgPath,
+      svgHeight: isLarge ? 60 : 24,
+      svgWidth: isLarge ? 60 : 24,
+      height: isLarge ? 99 : 60,
+      width: isLarge ? 99 : 60,
+    );
+  }
+
+  void _goToNextProfile() {
+    if (_pageController.page != null &&
+        _pageController.page! < items.length - 1) {
+      _pageController.nextPage(
+          duration: Duration(milliseconds: 200), curve: Curves.easeIn);
+    } else {}
   }
 }
