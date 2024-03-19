@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:link_flutter/dummy_data/home_page_json.dart'; // Ensure this import points to your actual data
 import 'package:link_flutter/components/circle_button.dart';
@@ -75,6 +77,9 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildProfilePage(Map<String, dynamic> profile) {
+    // Convert the Set to a List for easier indexing
+    List<String> instagramImages = profile['instagram'].toList();
+
     return ListView(
       children: [
         SizedBox(
@@ -87,12 +92,29 @@ class _HomePageState extends State<HomePage> {
                   fit: BoxFit.cover,
                 ),
               ),
-              Text("${profile['name']}, ${profile['age']}"),
-              SizedBox(height: 10),
-              Text(profile['passion']),
-              Text(profile['distance']),
-              
+              Align(
+                alignment: Alignment.centerLeft, // Align to the left
+                child: Column(children: [
+                  Text(
+                    "${profile['name']}, ${profile['age']}",
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  ),
+                ]),
+              ),
             ],
+          ),
+        ),
+        Container(
+          height: 100, // Fixed height for the horizontal list
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: instagramImages.length,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                child: Image.asset(instagramImages[index], fit: BoxFit.cover),
+              );
+            },
           ),
         ),
         Row(

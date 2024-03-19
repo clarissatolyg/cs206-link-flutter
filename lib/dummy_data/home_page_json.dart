@@ -6,9 +6,17 @@ const List discoverItems = [
     "age": "23",
     "passion": "Professional model",
     "distance": "1 km",
+    "quote":
+        "If you're into deep conversations over a cup of coffee and spontaneous weekend getaways, let's chat.",
     "interests": "Fashion, Travel, Music",
     "music genre": "Pop, Rock, Jazz",
-    "instagram": {"https://source.unsplash.com/random"}
+    "instagram": {
+      "assets/images/img1.jpg",
+      "assets/images/img2.jpg",
+      "assets/images/img3.jpg",
+      "assets/images/img10.jpg",
+      "assets/images/img11.jpg"
+    }
   },
   {
     "imageUrl":
@@ -17,9 +25,11 @@ const List discoverItems = [
     "age": "23",
     "passion": "Fashion designer",
     "distance": "1.5 km",
+    "quote":
+        "If you're passionate about life, love deep conversations, and enjoy spontaneous adventures, let's make memories together.",
     "interests": "Fashion, Travel, Music",
     "music genre": "Pop, Rock, Jazz",
-    "instagram": {"https://source.unsplash.com/random"}
+    "instagram": {"assets/images/img4.jpg", "assets/images/img5.jpg"}
   },
   {
     "imageUrl":
@@ -28,9 +38,10 @@ const List discoverItems = [
     "age": "19",
     "passion": "Forensic accountant",
     "distance": "2 km",
+    "quote": "Seeking someone who appreciates both quiet nights in binge-watching Netflix and spontaneous trips to new places",
     "interests": "Fashion, Travel, Music",
     "music genre": "Pop, Rock, Jazz",
-    "instagram": {"https://source.unsplash.com/random"}
+    "instagram": {"assets/images/img6.jpg", "assets/images/img7.jpg"}
   },
   {
     "imageUrl":
@@ -39,8 +50,9 @@ const List discoverItems = [
     "age": "20",
     "passion": "Social media coordinator",
     "distance": "2 km",
+    "quote": "Looking for someone who can keep up with my wanderlust and match my zest for life.",
     "interests": "Fashion, Travel, Music",
     "music genre": "Pop, Rock, Jazz",
-    "instagram": {"https://source.unsplash.com/random"}
+    "instagram": {"assets/images/img8.jpg", "assets/images/img9.jpg"}
   },
 ];
