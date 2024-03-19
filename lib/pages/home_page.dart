@@ -1,11 +1,9 @@
-import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:link_flutter/dummy_data/home_page_json.dart'; // Ensure this import points to your actual data
 import 'package:link_flutter/components/circle_button.dart';
 import 'package:link_flutter/theme/color.dart';
 import 'package:link_flutter/utils/constant.dart';
-import 'package:flutter/material.dart';
 import 'package:link_flutter/components/box_svg_button.dart';
 
 class HomePage extends StatefulWidget {
