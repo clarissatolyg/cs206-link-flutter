@@ -5,19 +5,19 @@ import 'package:timeago/timeago.dart' as timeago;
 
 class MessageListTitle extends StatelessWidget {
   final itemList;
-  final VoidCallback onTap;
+  final VoidCallback onPressed;
   
   const MessageListTitle({
     Key? key, 
     this.itemList, 
-    required this.onTap,
+    required this.onPressed,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return InkWell(
-      onTap: onTap,
+      onTap: onPressed,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: defaultPadding, vertical: defaultSmallPadding),
         child: Row(

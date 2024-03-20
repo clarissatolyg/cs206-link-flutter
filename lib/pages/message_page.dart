@@ -85,7 +85,7 @@ class _MessagePageState extends State<MessagePage> {
         Column(
           children: List.generate(activities.length, (index) {
             return MessageListTitle(
-              onTap: () {
+              onPressed: () {
                 _goToMessageChatPage(context, index);
               },
               itemList: activities[index],
