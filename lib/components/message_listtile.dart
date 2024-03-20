@@ -1,7 +1,7 @@
-
 import 'package:link_flutter/theme/color.dart';
 import 'package:link_flutter/utils/constant.dart';
 import 'package:flutter/material.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class MessageListTitle extends StatelessWidget {
   final itemList;
@@ -61,8 +61,8 @@ class MessageListTitle extends StatelessWidget {
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
-                          Text(
-                            itemList["message"],
+                          Text( 
+                            itemList["message"].last["text"],
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),
@@ -77,7 +77,7 @@ class MessageListTitle extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Text(
-                            itemList["dateTime"],
+                            timeago.format(itemList["message"].last["dateTime"], locale: 'en_short'),
                             style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
                           ),
                           itemList['isUnread']

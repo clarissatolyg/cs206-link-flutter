@@ -2,31 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:link_flutter/utils/constant.dart';
 import 'package:link_flutter/theme/color.dart';
 
-class MessageActivityCard extends StatelessWidget {
+class MessageChatActivityCard extends StatelessWidget {
   final itemList;
-  final VoidCallback onPressed;
   
-  const MessageActivityCard({
+  const MessageChatActivityCard({
     Key? key, 
     this.itemList,
-    required this.onPressed,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onPressed,
+    return SizedBox(
+      width: 41,
       child: Column(
         children: [
           Container(
             padding: EdgeInsets.all(defaultPadding / 10),
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              gradient: LinearGradient(colors: bgStoryColors),
-            ),
             child: Container(
-              width: 70,
-              height: 70,
+              height: 41,
               decoration: BoxDecoration(
                 color: white,
                 shape: BoxShape.circle,
@@ -38,12 +31,11 @@ class MessageActivityCard extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(height: defaultSmallPadding,),
           Text(
             itemList["username"],
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: TextStyle(fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 8, fontWeight: FontWeight.bold),
           )
         ],
       ),

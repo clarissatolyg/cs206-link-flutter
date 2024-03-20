@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:link_flutter/dummy_data/home_page_json.dart';
-import 'package:link_flutter/components/circle_button.dart';
-import 'package:link_flutter/theme/color.dart';
 import 'package:link_flutter/utils/constant.dart';
+import 'package:link_flutter/theme/color.dart';
+import 'package:link_flutter/components/circle_button.dart';
 import 'package:link_flutter/components/box_svg_button.dart';
+import 'package:link_flutter/pages/message_chat_page.dart';
+import 'package:link_flutter/dummy_data/home_page_json.dart';
+import 'package:link_flutter/dummy_data/message_page_json.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -29,7 +31,8 @@ class HomePageState extends State<HomePage> {
       appBar: getAppBar(),
       body: PageView.builder(
         controller: _pageController,
-        physics: NeverScrollableScrollPhysics(), // This line disables swipe gestures.
+        physics:
+            NeverScrollableScrollPhysics(), // This line disables swipe gestures.
         itemCount: items.length,
         itemBuilder: (context, index) {
           return _buildProfilePage(items[index]);
@@ -46,7 +49,8 @@ class HomePageState extends State<HomePage> {
           child: Row(
             children: [
               Spacer(),
-              Expanded( // col_heading
+              Expanded(
+                // col: heading
                 flex: 5,
                 child: Column(
                   children: [
@@ -62,10 +66,11 @@ class HomePageState extends State<HomePage> {
                   ],
                 ),
               ),
-              Expanded( // col_filter
-                child: BoxSvgButton(
-                  onTap: () {},
-                  svgPicture: "assets/images/filter.svg",
+              Expanded(
+                  // col: filter
+                  child: BoxSvgButton(
+                onTap: () {},
+                svgPicture: "assets/images/filter.svg",
               )),
             ],
           ),
@@ -75,13 +80,12 @@ class HomePageState extends State<HomePage> {
   }
 
   Widget _buildProfilePage(Map<String, dynamic> profile) {
-
     return ListView(
       padding: const EdgeInsets.all(16.0),
       children: [
         _buildProfileImage(profile['imageUrl']),
         _buildProfileInfo(profile),
-        _buildActionButtons(),
+        _buildActionButtons(profile),
       ],
     );
   }
@@ -107,7 +111,7 @@ class HomePageState extends State<HomePage> {
             style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
           SizedBox(height: 8.0),
-          Text(profile['passion'],
+          Text("${profile['passion']}, ${profile['distance']}",
               style: TextStyle(fontSize: 16)),
           SizedBox(height: 4.0),
           Text("Bio",
@@ -192,7 +196,7 @@ class HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _buildActionButtons() {
+  Widget _buildActionButtons(Map<String, dynamic> profile) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 16.0),
       child: Row(
@@ -203,7 +207,7 @@ class HomePageState extends State<HomePage> {
           _buildCircleButton("assets/images/link.svg", () => _goToNextProfile(),
               isLarge: true),
           _buildCircleButton(
-              "assets/images/like.svg", () => _goToNextProfile()),
+              "assets/images/like.svg", () => _goToMessageChat(profile)),
         ],
       ),
     );
@@ -229,5 +233,41 @@ class HomePageState extends State<HomePage> {
       _pageController.nextPage(
           duration: Duration(milliseconds: 200), curve: Curves.easeIn);
     } else {}
+  }
+
+  void _goToMessageChat(Map<String, dynamic> profile) {
+    Map<String, dynamic> chatProfile = {
+      "imageUrl": profile["imageUrl"],
+      "username": profile["username"],
+      "message": [{
+        "text": "Send me a message!",
+        "isSender": false,
+        "dateTime": DateTime.now(),
+      }],
+      "dateTime": "1 min",
+      "isUnread": false,
+      "unread": "0",
+    };
+    matchedUser = [];
+    var existingProfile = activities.firstWhere(
+      (message) => message["username"] == chatProfile["username"],
+      orElse: () => null,
+    );
+
+    if (existingProfile != null) {
+      // If found, add the existing profile to matchedUser
+      matchedUser.add(existingProfile);
+    } else {
+      // If not found, check if it doesn't exist in 'activities' and then proceed
+      if (!activities
+          .any((activity) => activity["username"] == chatProfile["username"])) {
+        activities.insert(0, chatProfile);
+      }
+      // Add the chatProfile to matchedUser
+      matchedUser.add(chatProfile);
+    }
+    Navigator.of(context).push(
+      MaterialPageRoute(builder: (context) => MessageChatPage()),
+    );
   }
 }
