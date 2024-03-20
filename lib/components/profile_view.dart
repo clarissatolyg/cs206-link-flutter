@@ -1,97 +1,45 @@
 import 'package:flutter/material.dart';
-import 'package:link_flutter/dummy_data/home_page_json.dart';
+import 'package:link_flutter/dummy_data/match_page_json.dart';
+import 'package:flutter/material.dart';
 import 'package:link_flutter/components/circle_button.dart';
 import 'package:link_flutter/theme/color.dart';
 import 'package:link_flutter/utils/constant.dart';
 import 'package:link_flutter/components/box_svg_button.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class ProfileView extends StatelessWidget {
+  final String userId;
 
-  @override
-  HomePageState createState() => HomePageState();
-}
-
-class HomePageState extends State<HomePage> {
-  final PageController _pageController = PageController();
-
-  List items = [];
-
-  @override
-  void initState() {
-    super.initState();
-    items = discoverItems;
-  }
+  const ProfileView({Key? key, required this.userId}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: getAppBar(),
-      body: PageView.builder(
-        controller: _pageController,
-        physics: NeverScrollableScrollPhysics(), // This line disables swipe gestures.
-        itemCount: items.length,
-        itemBuilder: (context, index) {
-          return _buildProfilePage(items[index]);
-        },
-      ),
+    List matchItems = todayMatchItems + yesterdayMatchItems;
+    final Map<String, dynamic> profile = matchItems.firstWhere(
+          (item) => item['userId'] == userId,
+      orElse: () => {},
     );
-  }
 
-
-  AppBar getAppBar() {
-    return AppBar(
-      flexibleSpace: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
-          child: Row(
-            children: [
-              Spacer(),
-              Expanded(
-                flex: 5,
-                child: Column(
-                  children: [
-                    Text(
-                      "Discover",
-                      style:
-                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      "Phnom Penh",
-                      style: TextStyle(fontSize: 12),
-                    )
-                  ],
-                ),
-              ),
-              Expanded(
-                  child: BoxSvgButton(
-                onTap: () {},
-                svgPicture: "assets/images/filter.svg",
-              )),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildProfilePage(Map<String, dynamic> profile) {
     List<String> instagramImages = profile['instagram'].toList();
 
-    return ListView(
-      padding: const EdgeInsets.all(16.0),
-      children: [
-        _buildProfileImage(profile['imageUrl']),
-        _buildProfileInfo(profile),
-        Text("Instagram",
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-        _buildInstagramImages(instagramImages),
-        _buildActionButtons(),
-      ],
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Profile'),
+      ),
+      body: ListView(
+          padding: const EdgeInsets.all(16.0),
+          children: [
+            _buildProfileImage(profile['imageUrl'], context),
+            _buildProfileInfo(profile),
+            Text("Instagram",
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+            _buildInstagramImages(instagramImages),
+            _buildActionButtons(),
+          ]
+      )
     );
   }
 
-  Widget _buildProfileImage(String imageUrl) {
+  Widget _buildProfileImage(String imageUrl, BuildContext context) {
     return SizedBox(
       height: MediaQuery.of(context).size.height *
           0.6, // Adjust the height as necessary.
@@ -198,11 +146,11 @@ class HomePageState extends State<HomePage> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           _buildCircleButton(
-              "assets/images/cross.svg", () => _goToNextProfile()),
-          _buildCircleButton("assets/images/link.svg", () => _goToNextProfile(),
+              "assets/images/cross.svg", () => {}),
+          _buildCircleButton("assets/images/link.svg", () => {},
               isLarge: true),
           _buildCircleButton(
-              "assets/images/like.svg", () => _goToNextProfile()),
+              "assets/images/like.svg", () => {}),
         ],
       ),
     );
@@ -222,11 +170,5 @@ class HomePageState extends State<HomePage> {
     );
   }
 
-  void _goToNextProfile() {
-    if (_pageController.page != null &&
-        _pageController.page! < items.length - 1) {
-      _pageController.nextPage(
-          duration: Duration(milliseconds: 200), curve: Curves.easeIn);
-    } else {}
-  }
+// Include _buildProfileInfo, _buildInstagramImages, etc.
 }

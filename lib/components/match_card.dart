@@ -48,32 +48,7 @@ class MatchCard extends StatelessWidget {
                   ),
                 ),
               ),
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.vertical(
-                    bottom: Radius.circular(defaultBorderRadius),
-                  ),
-                  color: black.withOpacity(0.2),
-                ),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: IconButton(
-                        onPressed: () {},
-                        splashRadius: 25,
-                        icon: SvgPicture.asset("assets/images/dislike.svg", color: white,),
-                      )
-                    ),
-                    Expanded(
-                      child: IconButton(
-                        onPressed: () {},
-                        splashRadius: 25,
-                        icon: SvgPicture.asset("assets/images/like.svg"),
-                      )
-                    ),
-                  ],
-                ),
-              ),
+
             ],
           )
         ),
