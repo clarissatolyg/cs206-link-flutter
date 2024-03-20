@@ -38,7 +38,6 @@ class HomePageState extends State<HomePage> {
     );
   }
 
-
   AppBar getAppBar() {
     return AppBar(
       flexibleSpace: SafeArea(
@@ -47,7 +46,7 @@ class HomePageState extends State<HomePage> {
           child: Row(
             children: [
               Spacer(),
-              Expanded(
+              Expanded( // col_heading
                 flex: 5,
                 child: Column(
                   children: [
@@ -63,10 +62,10 @@ class HomePageState extends State<HomePage> {
                   ],
                 ),
               ),
-              Expanded(
-                  child: BoxSvgButton(
-                onTap: () {},
-                svgPicture: "assets/images/filter.svg",
+              Expanded( // col_filter
+                child: BoxSvgButton(
+                  onTap: () {},
+                  svgPicture: "assets/images/filter.svg",
               )),
             ],
           ),
@@ -76,16 +75,12 @@ class HomePageState extends State<HomePage> {
   }
 
   Widget _buildProfilePage(Map<String, dynamic> profile) {
-    List<String> instagramImages = profile['instagram'].toList();
 
     return ListView(
       padding: const EdgeInsets.all(16.0),
       children: [
         _buildProfileImage(profile['imageUrl']),
         _buildProfileInfo(profile),
-        Text("Instagram",
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-        _buildInstagramImages(instagramImages),
         _buildActionButtons(),
       ],
     );
@@ -101,6 +96,7 @@ class HomePageState extends State<HomePage> {
   }
 
   Widget _buildProfileInfo(Map<String, dynamic> profile) {
+    List<String> instagramImages = profile['instagram'].toList();
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 16.0),
       child: Column(
@@ -113,6 +109,11 @@ class HomePageState extends State<HomePage> {
           SizedBox(height: 8.0),
           Text(profile['passion'],
               style: TextStyle(fontSize: 16)),
+          SizedBox(height: 4.0),
+          Text("Bio",
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+          Text(profile['quote'], style: TextStyle(fontSize: 12)),
+          SizedBox(height: 4.0),
           SizedBox(height: 8.0),
           Text("Interests",
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
@@ -121,9 +122,9 @@ class HomePageState extends State<HomePage> {
           Text("Music Genre",
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
           _buildMusicGenre(profile),
-          SizedBox(height: 4.0),
-          Text(profile['quote'], style: TextStyle(fontSize: 12)),
-          SizedBox(height: 4.0),
+          Text("Instagram",
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+          _buildInstagramImages(instagramImages),
         ],
       ),
     );
