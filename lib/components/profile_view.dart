@@ -1,21 +1,33 @@
 import 'package:flutter/material.dart';
-import 'package:link_flutter/dummy_data/match_page_json.dart';
-import 'package:flutter/material.dart';
-import 'package:link_flutter/components/circle_button.dart';
 import 'package:link_flutter/theme/color.dart';
 import 'package:link_flutter/utils/constant.dart';
+import 'package:chat_bubbles/chat_bubbles.dart';
+import 'package:link_flutter/components/circle_button.dart';
 import 'package:link_flutter/components/box_svg_button.dart';
+import 'package:link_flutter/pages/message_chat_page.dart';
+import 'package:link_flutter/dummy_data/match_page_json.dart';
+import 'package:link_flutter/dummy_data/message_page_json.dart';
+import 'dart:developer';
 
-class ProfileView extends StatelessWidget {
+class ProfileView extends StatefulWidget {
   final String userId;
-
   const ProfileView({Key? key, required this.userId}) : super(key: key);
+
+  @override
+  State<ProfileView> createState() => _ProfileViewState();
+}
+
+class _ProfileViewState extends State<ProfileView> {
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     List matchItems = todayMatchItems + yesterdayMatchItems;
     final Map<String, dynamic> profile = matchItems.firstWhere(
-          (item) => item['userId'] == userId,
+          (item) => item['userId'] == widget.userId,
       orElse: () => {},
     );
 
@@ -33,7 +45,7 @@ class ProfileView extends StatelessWidget {
             Text("Instagram",
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
             _buildInstagramImages(instagramImages),
-            _buildActionButtons(),
+            _buildActionButtons(context, profile),
           ]
       )
     );
@@ -139,18 +151,14 @@ class ProfileView extends StatelessWidget {
     );
   }
 
-  Widget _buildActionButtons() {
+  Widget _buildActionButtons(BuildContext context, Map<String, dynamic> profile) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 16.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          _buildCircleButton(
-              "assets/images/cross.svg", () => {}),
-          _buildCircleButton("assets/images/link.svg", () => {},
+          _buildCircleButton("assets/images/link.svg", () => _openMessageChatModal(context, profile),
               isLarge: true),
-          _buildCircleButton(
-              "assets/images/like.svg", () => {}),
         ],
       ),
     );
@@ -170,5 +178,195 @@ class ProfileView extends StatelessWidget {
     );
   }
 
-// Include _buildProfileInfo, _buildInstagramImages, etc.
+  void _openMessageChatModal(
+      BuildContext context, Map<String, dynamic> profile) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled:
+          true, // This allows the sheet to expand to full height
+      builder: (context) {
+        return Padding(
+          padding: MediaQuery.of(context).viewInsets, // Adjusts for keyboard
+          child: Container(
+            padding: EdgeInsets.all(defaultPadding / 10),
+            child: Column(
+              mainAxisSize:
+                  MainAxisSize.min, // To make the bottom sheet fit its content
+              children: <Widget>[
+                Container(
+                  width: 70,
+                  height: 70,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    shape: BoxShape.circle,
+                    border: Border.all(width: 2, color: Colors.white),
+                    image: DecorationImage(
+                      image: NetworkImage(profile["imageUrl"]),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                SizedBox(height: defaultSmallPadding),
+                Text(
+                  profile["username"],
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: defaultSmallPadding),
+                Text(
+                  "Introduce yourself",
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: defaultSmallPadding),
+                // Your MessageBar widget here
+                MessageBar(
+                  onSend: (_) => _sendMessage(_, context, profile),
+                  // Additional actions can be added here
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  void _goToMessageChat(BuildContext context, Map<String, dynamic> profile) {
+    Map<String, dynamic> chatProfile = {
+      "imageUrl": profile["imageUrl"],
+      "username": profile["username"],
+      "message": [
+        {
+          "text": "Send me a message!",
+          "isSender": false,
+          "dateTime": DateTime.now(),
+        }
+      ],
+      "dateTime": "1 min",
+      "isUnread": false,
+      "unread": "0",
+    };
+    matchedUser = [];
+    var existingProfile = activities.firstWhere(
+      (message) => message["username"] == chatProfile["username"],
+    );
+    log(existingProfile.toString());
+
+    if (existingProfile != null) {
+      // If found, add the existing profile to matchedUser
+      matchedUser.add(existingProfile);
+    } else {
+      // If not found, check if it doesn't exist in 'activities' and then proceed
+      if (!activities
+          .any((activity) => activity["username"] == chatProfile["username"])) {
+        activities.insert(0, chatProfile);
+      }
+      // Add the chatProfile to matchedUser
+      matchedUser.add(chatProfile);
+    }
+    Navigator.of(context).push(
+      MaterialPageRoute(builder: (context) => MessageChatPage()),
+    );
+  }
+
+  void _sendMessage(String text, BuildContext context, Map<String, dynamic> profile) {
+    bool isTextClean = _checkMessageRequirements(text, profile);
+    if (isTextClean == true) {
+      _goToMessageChatPage(context, text, profile);
+    } else {
+      _showWarningDialog(context, text, profile);
+    }
+  }
+
+  bool _checkMessageRequirements(String text, Map<String, dynamic> profile) {
+    bool isTextClean = true;
+
+    if (text.isEmpty) {
+      isTextClean = false;
+    }
+
+    for (var word in cleanList) {
+      if (text.contains(word)) {
+        isTextClean = false;
+      }
+    }
+
+    return isTextClean;
+  }
+
+  void _showWarningDialog(
+      BuildContext context, String text, Map<String, dynamic> profile) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Uh-oh!'),
+          content: Text(
+              'Your message seems a bit... generic. Spice it up to catch their attention!'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              child: Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+                _goToMessageChatPage(context, text, profile);
+              },
+              child: Text('Send Anyway'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _goToMessageChatPage(
+      BuildContext context, String text, Map<String, dynamic> profile) async {
+    Map<String, dynamic> chatProfile = {
+      "imageUrl": profile["imageUrl"],
+      "username": profile["username"],
+      "message": [
+        {
+          "text": "Send me a message!",
+          "isSender": false,
+          "dateTime": DateTime.now(),
+        }
+      ],
+      "dateTime": "1 min",
+      "isUnread": false,
+      "unread": "0",
+    };
+    if (matchedUser.isEmpty) {
+      matchedUser.add(chatProfile);
+    } else {
+      matchedUser[0] = chatProfile;
+    }
+    matchedUser[0]['message'].add({
+      "text": text,
+      "isSender": true,
+      "dateTime": DateTime.now(),
+    });
+    // log('Sending message: $text');
+    activities.insert(0, matchedUser[0]);
+    Navigator.of(context).push(
+      MaterialPageRoute(builder: (context) => MessageChatPage()),
+    );
+    fetchActivities();
+  }
+
+  Future<void> fetchActivities() async {
+    List<Map<String, dynamic>> fetchedActivities = activities;
+    // await Future.delayed(Duration(seconds: 1)); // simulate network delay with a Future.delayed
+
+    // Update your activities list with the fetched data
+    setState(() {
+      activities = fetchedActivities;
+    });
+  }
 }

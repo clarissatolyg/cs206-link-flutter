@@ -1,8 +1,10 @@
-const List todayMatchItems = [
+
+List todayMatchItems = [
   {
     "userId": "0",
     "imageUrl":
         "https://images.unsplash.com/photo-1621784564114-6eea05b89863?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTZ8fGJlYXV0aWZ1bCUyMGxhZHl8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
+    "username": "leilani1",
     "name": "Leilani",
     "age": "19",
     "passion": "Chef",
@@ -23,6 +25,7 @@ const List todayMatchItems = [
     "userId": "1",
     "imageUrl":
         "https://images.unsplash.com/photo-1576841944388-1d1b4b8494fc?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTB8fGJlYXV0aWZ1bCUyMGxhZHl8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
+    "username": "annabelle1",
     "name": "Annabelle",
     "age": "22",
     "passion": "Software Engineer",
@@ -37,6 +40,7 @@ const List todayMatchItems = [
     "userId": "2",
     "imageUrl":
         "https://images.unsplash.com/photo-1621184455862-c163dfb30e0f?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTd8fGJlYXV0aWZ1bCUyMGxhZHl8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
+    "username": "reagan1",
     "name": "Reagan",
     "age": "24",
     "passion": "Environmental Activist",
@@ -51,6 +55,7 @@ const List todayMatchItems = [
     "userId": "3",
     "imageUrl":
         "https://images.unsplash.com/photo-1516726817505-f5ed825624d8?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTR8fGJlYXV0aWZ1bCUyMGxhZHl8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
+    "username": "hadley1",
     "name": "Hadley",
     "age": "25",
     "passion": "Graphic Designer",
@@ -68,6 +73,7 @@ const List yesterdayMatchItems = [
     "userId": "4",
     "imageUrl":
         "https://images.unsplash.com/photo-1440589473619-3cde28941638?ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8YmVhdXRpZnVsJTIwbGFkeXxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
+    "username": "roksolana1",
     "name": "Roksolana",
     "age": "20",
     "passion": "Animal Rights Advocate",
@@ -82,6 +88,7 @@ const List yesterdayMatchItems = [
     "userId": "5",
     "imageUrl":
         "https://images.unsplash.com/photo-1524502397800-2eeaad7c3fe5?ixid=MnwxMjA3fDB8MHxzZWFyY2h8N3x8YmVhdXRpZnVsJTIwbGFkeXxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
+    "username": "raamin1",
     "name": "Raamin",
     "age": "19",
     "passion": "Fitness Trainer",
@@ -96,6 +103,7 @@ const List yesterdayMatchItems = [
     "userId": "6",
     "imageUrl":
         "https://images.unsplash.com/photo-1610879247468-ba0c12f0d709?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NXx8YmVhdXRpZnVsJTIwbGFkeXxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
+    "username": "rafaella1",
     "name": "Rafaella",
     "age": "24",
     "passion": "Writer",
@@ -114,6 +122,7 @@ const List yesterdayMatchItems = [
     "userId": "7",
     "imageUrl":
         "https://images.unsplash.com/photo-1612874470096-d93a610de87b?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8YmVhdXRpZnVsJTIwbGFkeXxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
+    "username": "diniz1",
     "name": "Diniz",
     "age": "22",
     "passion": "Humanitarian Worker",

@@ -31,7 +31,6 @@ List<Map<String, dynamic>> activities = [
         "dateTime": DateTime.now().subtract(Duration(minutes: 5)),
       }
     ],
-    "dateTime": "1 min",
     "isUnread": false,
     "unread": "0",
   },
@@ -46,7 +45,6 @@ List<Map<String, dynamic>> activities = [
         "dateTime": DateTime.now().subtract(Duration(days: 1)),
       }
     ],
-    "dateTime": "19 min",
     "isUnread": true,
     "unread": "2",
   },
@@ -61,7 +59,6 @@ List<Map<String, dynamic>> activities = [
         "dateTime": DateTime.now().subtract(Duration(days: 2)),
       }
     ],
-    "dateTime": "33 min",
     "isUnread": false,
     "unread": "",
   },
@@ -76,7 +73,6 @@ List<Map<String, dynamic>> activities = [
         "dateTime": DateTime.now().subtract(Duration(days: 5)),
       }
     ],
-    "dateTime": "33 min",
     "isUnread": false,
     "unread": "",
   },
@@ -91,7 +87,6 @@ List<Map<String, dynamic>> activities = [
         "dateTime": DateTime.now().subtract(Duration(days: 5)),
       }
     ],
-    "dateTime": "55 min",
     "isUnread": false,
     "unread": "0",
   },
@@ -106,7 +101,6 @@ List<Map<String, dynamic>> activities = [
         "dateTime": DateTime.now().subtract(Duration(days: 7)),
       }
     ],
-    "dateTime": "1 hour",
     "isUnread": true,
     "unread": "1",
   },
@@ -121,7 +115,6 @@ List<Map<String, dynamic>> activities = [
         "dateTime": DateTime.now().subtract(Duration(days: 10)),
       }
     ],
-    "dateTime": "1 day",
     "isUnread": true,
     "unread": "1",
   },
@@ -136,7 +129,6 @@ List<Map<String, dynamic>> activities = [
         "dateTime": DateTime.now().subtract(Duration(days: 15)),
       }
     ],
-    "dateTime": "2 day",
     "isUnread": true,
     "unread": "1",
   },
