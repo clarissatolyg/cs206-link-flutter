@@ -112,7 +112,6 @@ class _MessagePageState extends State<MessagePage> {
     };
     var existingProfile = activities.firstWhere(
       (activity) => activity["username"] == chatProfile["username"],
-      orElse: () => null,
     );
 
     if (existingProfile != null) {
@@ -129,7 +128,6 @@ class _MessagePageState extends State<MessagePage> {
     }
     var existingReadStatus = activities.firstWhere(
       (messages) => messages["isUnread"] == matchedUser[0]["isUnread"],
-      orElse: () => null,
     );
 
     if (existingReadStatus != null) {
@@ -151,7 +149,7 @@ class _MessagePageState extends State<MessagePage> {
   }
 
   Future<void> fetchActivities() async {
-    List fetchedActivities = activities;
+    List<Map<String, dynamic>> fetchedActivities = activities;
 
     // Simulate fetching data from a network source with a Future.delayed
     // await Future.delayed(Duration(seconds: 1)); // Simulate network delay

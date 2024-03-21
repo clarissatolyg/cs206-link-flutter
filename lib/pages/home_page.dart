@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:chat_bubbles/chat_bubbles.dart';
 import 'package:link_flutter/utils/constant.dart';
 import 'package:link_flutter/theme/color.dart';
 import 'package:link_flutter/components/circle_button.dart';
@@ -6,6 +7,7 @@ import 'package:link_flutter/components/box_svg_button.dart';
 import 'package:link_flutter/pages/message_chat_page.dart';
 import 'package:link_flutter/dummy_data/home_page_json.dart';
 import 'package:link_flutter/dummy_data/message_page_json.dart';
+import 'dart:developer';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -206,8 +208,8 @@ class HomePageState extends State<HomePage> {
               "assets/images/cross.svg", () => _goToNextProfile()),
           _buildCircleButton("assets/images/link.svg", () => _goToNextProfile(),
               isLarge: true),
-          _buildCircleButton(
-              "assets/images/like.svg", () => _goToMessageChat(profile)),
+          _buildCircleButton("assets/images/like.svg",
+              () => _openMessageChatModal(context, profile)),
         ],
       ),
     );
@@ -235,15 +237,73 @@ class HomePageState extends State<HomePage> {
     } else {}
   }
 
+  void _openMessageChatModal(
+      BuildContext context, Map<String, dynamic> profile) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled:
+          true, // This allows the sheet to expand to full height
+      builder: (context) {
+        return Padding(
+          padding: MediaQuery.of(context).viewInsets, // Adjusts for keyboard
+          child: Container(
+            padding: EdgeInsets.all(defaultPadding / 10),
+            child: Column(
+              mainAxisSize:
+                  MainAxisSize.min, // To make the bottom sheet fit its content
+              children: <Widget>[
+                Container(
+                  width: 70,
+                  height: 70,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    shape: BoxShape.circle,
+                    border: Border.all(width: 2, color: Colors.white),
+                    image: DecorationImage(
+                      image: NetworkImage(profile["imageUrl"]),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                SizedBox(height: defaultSmallPadding),
+                Text(
+                  profile["username"],
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: defaultSmallPadding),
+                Text(
+                  "Introduce yourself",
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: defaultSmallPadding),
+                // Your MessageBar widget here
+                MessageBar(
+                  onSend: (_) => _sendMessage(_, profile),
+                  // Additional actions can be added here
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   void _goToMessageChat(Map<String, dynamic> profile) {
     Map<String, dynamic> chatProfile = {
       "imageUrl": profile["imageUrl"],
       "username": profile["username"],
-      "message": [{
-        "text": "Send me a message!",
-        "isSender": false,
-        "dateTime": DateTime.now(),
-      }],
+      "message": [
+        {
+          "text": "Send me a message!",
+          "isSender": false,
+          "dateTime": DateTime.now(),
+        }
+      ],
       "dateTime": "1 min",
       "isUnread": false,
       "unread": "0",
@@ -251,7 +311,6 @@ class HomePageState extends State<HomePage> {
     matchedUser = [];
     var existingProfile = activities.firstWhere(
       (message) => message["username"] == chatProfile["username"],
-      orElse: () => null,
     );
 
     if (existingProfile != null) {
@@ -269,5 +328,106 @@ class HomePageState extends State<HomePage> {
     Navigator.of(context).push(
       MaterialPageRoute(builder: (context) => MessageChatPage()),
     );
+  }
+
+  void _sendMessage(String text, Map<String, dynamic> profile) {
+    bool isTextClean = _checkMessageRequirements(text, profile);
+    if (isTextClean == true) {
+      _goToMessageChatPage(context, text, profile);
+    } else {
+      _showWarningDialog(context, text, profile);
+    }
+  }
+
+  bool _checkMessageRequirements(String text, Map<String, dynamic> profile) {
+    bool isTextClean = true;
+
+    if (text.isEmpty) {
+      isTextClean = false;
+    }
+
+    for (var word in cleanList) {
+      if (text.contains(word)) {
+        isTextClean = false;
+      }
+    }
+
+    return isTextClean;
+  }
+
+  void _showWarningDialog(
+      BuildContext context, String text, Map<String, dynamic> profile) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Uh-oh!'),
+          content: Text(
+              'Your message seems a bit... generic. Spice it up to catch their attention!'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              child: Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+                _goToMessageChatPage(context, text, profile);
+              },
+              child: Text('Send Anyway'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _goToMessageChatPage(
+      BuildContext context, String text, Map<String, dynamic> profile) async {
+    Map<String, dynamic> chatProfile = {
+      "imageUrl": profile["imageUrl"],
+      "username": profile["username"],
+      "message": [
+        {
+          "text": "Send me a message!",
+          "isSender": false,
+          "dateTime": DateTime.now(),
+        }
+      ],
+      "dateTime": "1 min",
+      "isUnread": false,
+      "unread": "0",
+    };
+    if (matchedUser.isEmpty) {
+      matchedUser.add(chatProfile);
+    } else {
+      matchedUser[0] = chatProfile;
+    }
+    matchedUser[0]['message'].add({
+      "text": text,
+      "isSender": true,
+      "dateTime": DateTime.now(),
+    });
+    // log('Sending message: $text');
+    activities.insert(0, matchedUser[0]);
+    log(activities.toString());
+    log(matchedUser.toString());
+    Navigator.of(context).push(
+      MaterialPageRoute(builder: (context) => MessageChatPage()),
+    );
+    _goToNextProfile();
+    fetchActivities();
+  }
+
+  Future<void> fetchActivities() async {
+    List<Map<String, dynamic>> fetchedActivities = activities;
+    // await Future.delayed(Duration(seconds: 1)); // simulate network delay with a Future.delayed
+
+    // Update your activities list with the fetched data
+    setState(() {
+      activities = fetchedActivities;
+    });
   }
 }

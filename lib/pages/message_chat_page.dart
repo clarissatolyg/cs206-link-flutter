@@ -83,9 +83,9 @@ class _MessageChatPageState extends State<MessageChatPage> {
     // Temporary variable to hold the date of the last message processed
     DateTime? lastDate;
     var existingProfile = activities.firstWhere(
-      (message) => message["username"] == matchedUser[0]["username"],
-      orElse: () => null,
+      (activity) => activity["username"] == matchedUser[0]["username"]
     );
+
     for (var message in existingProfile['message']) {
       // Extract message details
       final text = message["text"];
@@ -125,27 +125,6 @@ class _MessageChatPageState extends State<MessageChatPage> {
         // MessageBar widget here
         MessageBar(
           onSend: (_) => _sendMessage(_, existingProfile),
-          actions: [
-            InkWell(
-              child: Icon(
-                Icons.add,
-                color: Colors.black,
-                size: 24,
-              ),
-              onTap: () {},
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 8, right: 8),
-              child: InkWell(
-                child: Icon(
-                  Icons.camera_alt,
-                  color: Colors.green,
-                  size: 24,
-                ),
-                onTap: () {},
-              ),
-            ),
-          ],
         )
       ],
     );
@@ -165,7 +144,7 @@ class _MessageChatPageState extends State<MessageChatPage> {
   }
 
   Future<void> fetchActivities() async {
-    List fetchedActivities = activities;
+    List<Map<String, dynamic>> fetchedActivities = activities;
     // await Future.delayed(Duration(seconds: 1)); // simulate network delay with a Future.delayed
 
     // Update your activities list with the fetched data
