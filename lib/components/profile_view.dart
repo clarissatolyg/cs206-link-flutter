@@ -157,7 +157,7 @@ class _ProfileViewState extends State<ProfileView> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          _buildCircleButton("assets/images/link.svg", () => _openMessageChatModal(context, profile),
+          _buildCircleButton("assets/images/like.svg", () => _openMessageChatModal(context, profile),
               isLarge: true),
         ],
       ),
