@@ -55,6 +55,16 @@ class _MessagePageState extends State<MessagePage> {
   }
 
   Widget getBody(BuildContext context, Size size) {
+    // Sort activities based on isUnread status
+    activities.sort((a, b) {
+      if (a["isUnread"] && !b["isUnread"]) {
+        return -1; // 'a' should come before 'b'
+      } else if (!a["isUnread"] && b["isUnread"]) {
+        return 1; // 'b' should come before 'a'
+      } else {
+        return 0; // 'a' and 'b' are equal
+      }
+    });
     return ListView(
       children: [
         MessageTitle(

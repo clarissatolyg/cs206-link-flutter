@@ -206,8 +206,8 @@ class HomePageState extends State<HomePage> {
         children: [
           _buildCircleButton(
               "assets/images/cross.svg", () => _goToNextProfile()),
-          _buildCircleButton("assets/images/link.svg", () => _goToNextProfile(),
-              isLarge: true),
+          // _buildCircleButton("assets/images/link.svg", () => _goToNextProfile(),
+          //     isLarge: true),
           _buildCircleButton("assets/images/like.svg",
               () => _openMessageChatModal(context, profile)),
         ],

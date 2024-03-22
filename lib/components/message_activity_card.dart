@@ -5,9 +5,9 @@ import 'package:link_flutter/theme/color.dart';
 class MessageActivityCard extends StatelessWidget {
   final itemList;
   final VoidCallback onPressed;
-  
+
   const MessageActivityCard({
-    Key? key, 
+    Key? key,
     this.itemList,
     required this.onPressed,
   }) : super(key: key);
@@ -20,25 +20,27 @@ class MessageActivityCard extends StatelessWidget {
         children: [
           Container(
             padding: EdgeInsets.all(defaultPadding / 10),
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              gradient: LinearGradient(colors: bgStoryColors),
-            ),
+            decoration: itemList["isUnread"]
+                ? BoxDecoration(
+                    shape: BoxShape.circle,
+                    gradient: LinearGradient(colors: bgStoryColors),
+                  )
+                : null, // No decoration when isUnread is false
             child: Container(
               width: 70,
               height: 70,
               decoration: BoxDecoration(
-                color: white,
-                shape: BoxShape.circle,
-                border: Border.all(width: 2, color: white),
-                image: DecorationImage(
-                  image: NetworkImage(itemList["imageUrl"]),
-                  fit: BoxFit.cover
-                )
-              ),
+                  color: white,
+                  shape: BoxShape.circle,
+                  border: Border.all(width: 2, color: white),
+                  image: DecorationImage(
+                      image: NetworkImage(itemList["imageUrl"]),
+                      fit: BoxFit.cover)),
             ),
           ),
-          SizedBox(height: defaultSmallPadding,),
+          SizedBox(
+            height: defaultSmallPadding,
+          ),
           Text(
             itemList["username"],
             maxLines: 1,
