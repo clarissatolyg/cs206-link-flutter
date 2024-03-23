@@ -1,5 +1,5 @@
 
-List todayMatchItems = [
+List<Map<String, dynamic>>  todayMatchItems = [
   {
     "userId": "0",
     "imageUrl":
@@ -68,7 +68,7 @@ List todayMatchItems = [
   },
 ];
 
-const List yesterdayMatchItems = [
+List<Map<String, dynamic>>  yesterdayMatchItems = [
   {
     "userId": "4",
     "imageUrl":

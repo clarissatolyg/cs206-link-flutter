@@ -234,7 +234,29 @@ class HomePageState extends State<HomePage> {
         _pageController.page! < items.length - 1) {
       _pageController.nextPage(
           duration: Duration(milliseconds: 200), curve: Curves.easeIn);
-    } else {}
+    } else {
+      _showNoMoreProfilesDialog();
+    }
+  }
+
+  void _showNoMoreProfilesDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Oops..."),
+          content: Text("Out of swipes! You've reached the end of the list."),
+          actions: <Widget>[
+            TextButton(
+              child: Text("Return"),
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   void _openMessageChatModal(

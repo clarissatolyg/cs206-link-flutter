@@ -83,8 +83,7 @@ class _MessageChatPageState extends State<MessageChatPage> {
     // Temporary variable to hold the date of the last message processed
     DateTime? lastDate;
     var existingProfile = activities.firstWhere(
-      (activity) => activity["username"] == matchedUser[0]["username"]
-    );
+        (activity) => activity["username"] == matchedUser[0]["username"]);
 
     for (var message in existingProfile['message']) {
       // Extract message details
@@ -131,16 +130,70 @@ class _MessageChatPageState extends State<MessageChatPage> {
   }
 
   void _sendMessage(String text, Map<String, dynamic> existingProfile) async {
-    existingProfile['message'].add({
-      "text": text,
-      "isSender": true,
-      "dateTime": DateTime.now(),
-    });
-    var currentProfile = existingProfile;
-    activities.remove(existingProfile);
-    // log('Sending message: $text');
-    activities.insert(0, currentProfile);
-    fetchActivities();
+    bool isTextClean = _checkMessageRequirements(text, existingProfile);
+    if (isTextClean == true) {
+      _sendChatAnyways(context, text, existingProfile);
+    } else {
+      _showWarningDialog(context, text, existingProfile);
+    }
+  }
+
+  bool _checkMessageRequirements(String text, Map<String, dynamic> profile) {
+    bool isTextClean = true;
+
+    if (text.isEmpty) {
+      isTextClean = false;
+    }
+
+    for (var word in cleanList) {
+      if (text.contains(word)) {
+        isTextClean = false;
+      }
+    }
+
+    return isTextClean;
+  }
+
+  void _showWarningDialog(
+      BuildContext context, String text, Map<String, dynamic> profile) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Uh-oh!'),
+          content: Text(
+              'Your message seems a bit... generic. Spice it up to catch their attention!'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              child: Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+               _sendChatAnyways(context, text, profile);
+              },
+              child: Text('Send Anyway'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _sendChatAnyways(BuildContext context, String text, Map<String, dynamic> profile) {
+      profile['message'].add({
+        "text": text,
+        "isSender": true,
+        "dateTime": DateTime.now(),
+      });
+      var currentProfile = profile;
+      activities.remove(profile);
+      // log('Sending message: $text');
+      activities.insert(0, currentProfile);
+      fetchActivities();
   }
 
   Future<void> fetchActivities() async {

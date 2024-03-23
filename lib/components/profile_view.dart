@@ -18,36 +18,76 @@ class ProfileView extends StatefulWidget {
 }
 
 class _ProfileViewState extends State<ProfileView> {
+  late final PageController _pageController;
+
+  List<Map<String, dynamic>> items = [];
+
   @override
   void initState() {
     super.initState();
+
+    items = todayMatchItems +
+        yesterdayMatchItems; // Combine today's and yesterday's match items
+    int initialPage = items.indexWhere((item) =>
+        item['userId'] ==
+        widget.userId); // Find the index of the profile with the current userId
+    if (initialPage == -1)
+      initialPage =
+          0; // Check if the user was found. If not, default to the first profile.
+    _pageController = PageController(
+        initialPage:
+            initialPage); // Initialize the PageController with the determined initialPage
+  }
+
+  @override
+  void dispose() {
+    // Dispose of the PageController when not needed
+    _pageController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    List matchItems = todayMatchItems + yesterdayMatchItems;
-    final Map<String, dynamic> profile = matchItems.firstWhere(
-          (item) => item['userId'] == widget.userId,
+    log(widget.userId);
+    // Find the index of the profile with the current userId
+    int initialPage =
+        items.indexWhere((item) => item['userId'] == widget.userId);
+    // Check if the user was found. If not, default to the first profile.
+    if (initialPage == -1) initialPage = 0;
+
+    final Map<String, dynamic> profile = items.firstWhere(
+      (item) => item['userId'] == widget.userId,
       orElse: () => {},
     );
-
-    List<String> instagramImages = profile['instagram'].toList();
 
     return Scaffold(
       appBar: AppBar(
         title: Text('Profile'),
       ),
-      body: ListView(
-          padding: const EdgeInsets.all(16.0),
-          children: [
-            _buildProfileImage(profile['imageUrl'], context),
-            _buildProfileInfo(profile),
-            Text("Instagram",
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-            _buildInstagramImages(instagramImages),
-            _buildActionButtons(context, profile),
-          ]
-      )
+      body: PageView.builder(
+        controller: _pageController,
+        physics:
+            NeverScrollableScrollPhysics(), // This line disables swipe gestures.
+        itemCount: items.length,
+        itemBuilder: (context, index) {
+          return _buildProfilePage(items[index]);
+        },
+      ),
+    );
+  }
+
+  Widget _buildProfilePage(Map<String, dynamic> profile) {
+    List<String> instagramImages = profile['instagram'].toList();
+    return ListView(
+      padding: const EdgeInsets.all(16.0),
+      children: [
+        _buildProfileImage(profile['imageUrl'], context),
+        _buildProfileInfo(profile),
+        Text("Instagram",
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+        _buildInstagramImages(instagramImages),
+        _buildActionButtons(context, profile),
+      ],
     );
   }
 
@@ -71,8 +111,7 @@ class _ProfileViewState extends State<ProfileView> {
             style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
           SizedBox(height: 8.0),
-          Text(profile['passion'],
-              style: TextStyle(fontSize: 16)),
+          Text(profile['passion'], style: TextStyle(fontSize: 16)),
           SizedBox(height: 8.0),
           Text("Interests",
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
@@ -151,14 +190,21 @@ class _ProfileViewState extends State<ProfileView> {
     );
   }
 
-  Widget _buildActionButtons(BuildContext context, Map<String, dynamic> profile) {
+  Widget _buildActionButtons(
+      BuildContext context, Map<String, dynamic> profile) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 16.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          _buildCircleButton("assets/images/like.svg", () => _openMessageChatModal(context, profile),
-              isLarge: true),
+          _buildCircleButton(
+              "assets/images/cross.svg", () => _goToNextProfile(),
+              isLarge: false),
+          // _buildCircleButton("assets/images/link.svg", () => _goToNextProfile(),
+          //     isLarge: true),
+          _buildCircleButton("assets/images/like.svg",
+              () => _openMessageChatModal(context, profile),
+              isLarge: false),
         ],
       ),
     );
@@ -175,6 +221,37 @@ class _ProfileViewState extends State<ProfileView> {
       svgWidth: isLarge ? 60 : 24,
       height: isLarge ? 99 : 60,
       width: isLarge ? 99 : 60,
+    );
+  }
+
+  void _goToNextProfile() {
+    if (_pageController.page != null &&
+        _pageController.page! < items.length - 1) {
+      _pageController.nextPage(
+          duration: Duration(milliseconds: 200), curve: Curves.easeIn);
+    } else {
+      _showNoMoreProfilesDialog();
+    }
+  }
+
+  void _showNoMoreProfilesDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Oops..."),
+          content: Text("Out of swipes! You've reached the end of the list."),
+          actions: <Widget>[
+            TextButton(
+              child: Text("Return"),
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+                Navigator.of(context).pop(); // Return to "people who like you" page
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 
@@ -272,7 +349,8 @@ class _ProfileViewState extends State<ProfileView> {
     );
   }
 
-  void _sendMessage(String text, BuildContext context, Map<String, dynamic> profile) {
+  void _sendMessage(
+      String text, BuildContext context, Map<String, dynamic> profile) {
     bool isTextClean = _checkMessageRequirements(text, profile);
     if (isTextClean == true) {
       _goToMessageChatPage(context, text, profile);
