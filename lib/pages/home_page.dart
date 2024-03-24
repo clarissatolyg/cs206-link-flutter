@@ -108,9 +108,20 @@ class HomePageState extends State<HomePage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            "${profile['name']}, ${profile['age']}",
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          Row(
+            children: [
+              Text(
+                "${profile['name']}, ${profile['age']} ",
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              ),
+              profile['likedYou'] == "True"
+                  ? Text("liked you!",
+                      style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: primary))
+                  : Container()
+            ],
           ),
           SizedBox(height: 8.0),
           Text("${profile['passion']}, ${profile['distance']}",
