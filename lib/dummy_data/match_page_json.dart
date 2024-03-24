@@ -1,5 +1,4 @@
-
-List<Map<String, dynamic>>  todayMatchItems = [
+List<Map<String, dynamic>> todayMatchItems = [
   {
     "userId": "0",
     "imageUrl":
@@ -68,7 +67,7 @@ List<Map<String, dynamic>>  todayMatchItems = [
   },
 ];
 
-List<Map<String, dynamic>>  yesterdayMatchItems = [
+List<Map<String, dynamic>> yesterdayMatchItems = [
   {
     "userId": "4",
     "imageUrl":
@@ -135,5 +134,59 @@ List<Map<String, dynamic>>  yesterdayMatchItems = [
       "assets/images/img3.jpg",
       "assets/images/img10.jpg",
     }
+  },
+];
+
+List<Map<String, dynamic>> carousellItems = [
+  {
+    "userId": "0",
+    "imageUrl":
+        "https://images.unsplash.com/photo-1621784564114-6eea05b89863?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTZ8fGJlYXV0aWZ1bCUyMGxhZHl8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
+    "username": "leilani1",
+    "name": "Leilani",
+    "age": "19",
+    "passion": "Chef",
+    "distance": "3.2 km",
+    "quote":
+        "Cooking is my passion, and I believe that food has the power to bring people together.",
+    "interests": "Culinary arts, Travel, Photography",
+    "musicGenre": "Classical, Latin, Blues",
+    "instagram": {
+      "assets/images/img12.jpg",
+      "assets/images/img13.jpg",
+      "assets/images/img3.jpg",
+      "assets/images/img10.jpg",
+      "assets/images/img11.jpg"
+    }
+  },
+  {
+    "userId": "1",
+    "imageUrl":
+        "https://images.unsplash.com/photo-1576841944388-1d1b4b8494fc?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTB8fGJlYXV0aWZ1bCUyMGxhZHl8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
+    "username": "annabelle1",
+    "name": "Annabelle",
+    "age": "22",
+    "passion": "Software Engineer",
+    "distance": "0.8 km",
+    "quote":
+        "Coding is my art, and I'm constantly seeking to create innovative solutions to real-world problems.",
+    "interests": "Technology, Gaming, Sci-Fi",
+    "musicGenre": "Electronic, Hip Hop, Alternative",
+    "instagram": {"assets/images/img4.jpg", "assets/images/img5.jpg"}
+  },
+  {
+    "userId": "2",
+    "imageUrl":
+        "https://images.unsplash.com/photo-1621184455862-c163dfb30e0f?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTd8fGJlYXV0aWZ1bCUyMGxhZHl8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
+    "username": "reagan1",
+    "name": "Reagan",
+    "age": "24",
+    "passion": "Environmental Activist",
+    "distance": "5.7 km",
+    "quote":
+        "Protecting the planet is my calling, and I'm dedicated to making a positive impact on the environment.",
+    "interests": "Sustainability, Hiking, Yoga",
+    "musicGenre": "Folk, World, Reggae",
+    "instagram": {"assets/images/img12.jpg", "assets/images/img7.jpg"}
   },
 ];
