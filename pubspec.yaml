@@ -40,8 +40,9 @@ dependencies:
   flutter_swipecards: ^0.2.1
   proste_bezier_curve: ^2.0.2
   animate_do: ^2.0.0
-  carousel_slider: ^4.0.0
+  carousel_slider: ^4.2.1
   intl_phone_number_input: ^0.7.0+2
+  infinite_carousel: ^1.1.1
 
 dev_dependencies:
   flutter_test:
