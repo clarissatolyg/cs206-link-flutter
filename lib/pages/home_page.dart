@@ -62,7 +62,7 @@ class HomePageState extends State<HomePage> {
                           TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                     ),
                     Text(
-                      "Phnom Penh",
+                      "Singapore",
                       style: TextStyle(fontSize: 12),
                     )
                   ],
@@ -94,12 +94,29 @@ class HomePageState extends State<HomePage> {
 
   Widget _buildProfileImage(String imageUrl) {
     return SizedBox(
-      height: MediaQuery.of(context).size.height *
-          0.6, // Adjust the height as necessary.
-      width: double.infinity,
-      child: Image.network(imageUrl, fit: BoxFit.cover),
+      // height: MediaQuery.of(context).size.height * 0.6,
+      // width: double.infinity,
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          CircularProgressIndicator(), // Loading animation
+          FadeInImage(
+            height: MediaQuery.of(context).size.height * 0.6,
+            width: double.infinity,
+            placeholder: AssetImage(
+                'assets/images/transparent.png'), // Transparent placeholder
+            image: NetworkImage(imageUrl), // Actual image URL
+            fit: BoxFit.cover,
+            fadeInDuration: Duration(
+                milliseconds: 200), // Duration of the fade-in animation
+            fadeInCurve: Curves.easeIn, // Curve for the fade-in animation
+            // You can adjust other properties of FadeInImage as needed
+          ),
+        ],
+      ),
     );
   }
+
 
   Widget _buildProfileInfo(Map<String, dynamic> profile) {
     List<String> instagramImages = profile['instagram'].toList();
