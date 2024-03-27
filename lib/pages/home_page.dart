@@ -131,7 +131,7 @@ class HomePageState extends State<HomePage> {
                 "${profile['name']}, ${profile['age']} ",
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
-              profile['likedYou'] == "True"
+              profile['likedYou'] == true
                   ? Text("liked you!",
                       style: TextStyle(
                           fontSize: 24,
@@ -238,7 +238,7 @@ class HomePageState extends State<HomePage> {
           //     isLarge: true),
           // _buildCircleButton("assets/images/like.svg",
           //     () => _openMessageChatModal(context, profile)),
-          if (profile['likedYou'] == "True")
+          if (profile['likedYou'] == true)
             _buildCircleButton(
               "assets/images/like.svg",
               () => _goToMessageChat(profile),
@@ -411,7 +411,7 @@ class HomePageState extends State<HomePage> {
             TextButton(
               onPressed: () {
                 Navigator.of(context) .pop(); // This will close the dialog first.
-                Navigator.of(context) .pop(); // This will close the send chat first first.
+                // Navigator.of(context) .pop(); // This will close the send chat first first.
                 _goToMessageChatPage(context, text, profile);
               },
               child: Text('Send Anyway'),

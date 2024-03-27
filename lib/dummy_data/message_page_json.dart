@@ -48,7 +48,7 @@ List<Map<String, dynamic>> activities = [
       }
     ],
     "isUnread": true,
-    "unread": "2",
+    "unread": "1",
   },
   {
     "imageUrl":
@@ -63,7 +63,7 @@ List<Map<String, dynamic>> activities = [
       }
     ],
     "isUnread": true,
-    "unread": "",
+    "unread": "1",
   },
   {
     "imageUrl":
@@ -78,7 +78,7 @@ List<Map<String, dynamic>> activities = [
       }
     ],
     "isUnread": true,
-    "unread": "",
+    "unread": "1",
   },
   {
     "imageUrl":
@@ -93,13 +93,13 @@ List<Map<String, dynamic>> activities = [
       }
     ],
     "isUnread": true,
-    "unread": "0",
+    "unread": "1",
   },
   {
     "imageUrl":
-        "https://images.unsplash.com/photo-1541499768294-44cad3c95755?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NDl8fGJldXRpZnVsJTIwcHJvZmlsZXxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
-    "username": "grace1",
-    "name": "Grace",
+        "https://images.unsplash.com/photo-1524502397800-2eeaad7c3fe5?ixid=MnwxMjA3fDB8MHxzZWFyY2h8N3x8YmVhdXRpZnVsJTIwbGFkeXxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
+    "username": "raamin1",
+    "name": "Raamin",
     "message": [
       {
         "text": "You are such a cutie, what's your phone number?",
@@ -112,9 +112,24 @@ List<Map<String, dynamic>> activities = [
   },
   {
     "imageUrl":
-        "https://images.unsplash.com/photo-1525873765963-8931ab571545?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NTh8fGJldXRpZnVsJTIwcHJvZmlsZXxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
-    "username": "abigail1",
-    "name": "Abigail",
+        "https://images.unsplash.com/photo-1610879247468-ba0c12f0d709?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NXx8YmVhdXRpZnVsJTIwbGFkeXxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
+    "username": "rafaella1",
+    "name": "Rafaella",
+    "message": [
+      {
+        "text": "No...are you? God? cuz you're so heavenly!!!",
+        "isSender": false,
+        "dateTime": DateTime.now().subtract(Duration(days: 10)),
+      }
+    ],
+    "isUnread": true,
+    "unread": "1",
+  },
+  {
+    "imageUrl":
+        "https://images.unsplash.com/photo-1612874470096-d93a610de87b?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8YmVhdXRpZnVsJTIwbGFkeXxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
+    "username": "diniz1",
+    "name": "Diniz",
     "message": [
       {
         "text": "No...are you? God? cuz you're so heavenly!!!",

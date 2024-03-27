@@ -6,6 +6,7 @@ import 'package:link_flutter/components/message_listtile.dart';
 import 'package:link_flutter/components/message_title.dart';
 import 'package:link_flutter/components/search_textfield.dart';
 import 'package:link_flutter/pages/message_chat_page.dart';
+import 'package:link_flutter/dummy_data/home_page_json.dart';
 import 'package:link_flutter/dummy_data/message_page_json.dart';
 
 class MessagePage extends StatefulWidget {
@@ -120,9 +121,12 @@ class _MessagePageState extends State<MessagePage> {
       "isUnread": true,
       "unread": "0",
     };
-    var existingProfile = activities.firstWhere(
-      (activity) => activity["username"] == chatProfile["username"],
-    );
+    var existingProfile = discoverItems.firstWhere(
+    (activity) =>
+        activity["username"] == chatProfile["username"] &&
+        activity["likedYou"] == true,
+    orElse: () => null, // Provide a default value or handler if no match is found
+  );
 
     if (existingProfile != null) {
       // If found, add the existing profile to matchedUser
@@ -136,26 +140,17 @@ class _MessagePageState extends State<MessagePage> {
       // Add the chatProfile to matchedUser
       matchedUser.add(chatProfile);
     }
-    var existingReadStatus = activities.firstWhere(
-      (messages) => messages["isUnread"] == matchedUser[0]["isUnread"],
-    );
 
-    if (existingReadStatus != null) {
       // If found, add the existing profile to matchedUser
-      matchedUser[0]["isUnread"] = false;
-      existingReadStatus["isUnread"] = false;
-    }
+      currentProfile["isUnread"] = false;
 
     await Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) =>
               MessageChatPage(), // Replace NewPage with your target page
-        )).then((_) {
-      // This block runs when you pop back to the MessagePage from MessageChatPage
-      // Call setState to refresh the UI if needed or call fetchActivities to re-fetch data
+        ));
       fetchActivities(); // Assuming fetchActivities updates your state and UI
-    });
   }
 
   Future<void> fetchActivities() async {
