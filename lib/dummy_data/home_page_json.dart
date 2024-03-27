@@ -8,7 +8,7 @@ List<Map<String, dynamic>> discoverItems = [
     "age": "19",
     "passion": "Chef",
     "likedYou": true,
-    "isMatched": true,
+    "isMatched": false,
     "distance": "3.2 km",
     "quote":
         "Cooking is my passion, and I believe that food has the power to bring people together.",
