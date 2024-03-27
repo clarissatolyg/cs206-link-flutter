@@ -71,7 +71,6 @@ const List discoverItems = [
   },
   {
     "userId": "8",
-    "userId": "0",
     "imageUrl":
         "https://images.unsplash.com/photo-1621784564114-6eea05b89863?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTZ8fGJlYXV0aWZ1bCUyMGxhZHl8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
     "username": "leilani1",
