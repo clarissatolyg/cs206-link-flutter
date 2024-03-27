@@ -172,8 +172,7 @@ class _MessageChatPageState extends State<MessageChatPage> {
             ),
             TextButton(
               onPressed: () {
-                Navigator.of(context).pop(); // Close the dialog
-               _sendChatAnyways(context, text, profile);
+                _sendChatAnyways(context, text, profile); 
               },
               child: Text('Send Anyway'),
             ),
@@ -183,17 +182,18 @@ class _MessageChatPageState extends State<MessageChatPage> {
     );
   }
 
-  void _sendChatAnyways(BuildContext context, String text, Map<String, dynamic> profile) {
-      profile['message'].add({
-        "text": text,
-        "isSender": true,
-        "dateTime": DateTime.now(),
-      });
-      var currentProfile = profile;
-      activities.remove(profile);
-      // log('Sending message: $text');
-      activities.insert(0, currentProfile);
-      fetchActivities();
+  void _sendChatAnyways(
+      BuildContext context, String text, Map<String, dynamic> profile) {
+    profile['message'].add({
+      "text": text,
+      "isSender": true,
+      "dateTime": DateTime.now(),
+    });
+    var currentProfile = profile;
+    activities.remove(profile);
+    // log('Sending message: $text');
+    activities.insert(0, currentProfile);
+    fetchActivities();
   }
 
   Future<void> fetchActivities() async {

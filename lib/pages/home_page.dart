@@ -208,8 +208,18 @@ class HomePageState extends State<HomePage> {
               "assets/images/cross.svg", () => _goToNextProfile()),
           // _buildCircleButton("assets/images/link.svg", () => _goToNextProfile(),
           //     isLarge: true),
-          _buildCircleButton("assets/images/like.svg",
-              () => _openMessageChatModal(context, profile)),
+          // _buildCircleButton("assets/images/like.svg",
+          //     () => _openMessageChatModal(context, profile)),
+          if (profile['likedYou'] == "True")
+            _buildCircleButton(
+              "assets/images/like.svg",
+              () => _goToMessageChat(profile),
+            )
+          else
+            _buildCircleButton(
+              "assets/images/like.svg",
+              () => _openMessageChatModal(context, profile),
+            ),
         ],
       ),
     );
@@ -316,37 +326,14 @@ class HomePageState extends State<HomePage> {
   }
 
   void _goToMessageChat(Map<String, dynamic> profile) {
-    Map<String, dynamic> chatProfile = {
-      "imageUrl": profile["imageUrl"],
-      "username": profile["username"],
-      "message": [
-        {
-          "text": "Send me a message!",
-          "isSender": false,
-          "dateTime": DateTime.now(),
-        }
-      ],
-      "dateTime": "1 min",
-      "isUnread": false,
-      "unread": "0",
-    };
     matchedUser = [];
+    // log(profile["username"]);
     var existingProfile = activities.firstWhere(
-      (message) => message["username"] == chatProfile["username"],
+      (message) => message["username"] == profile["username"],
     );
 
-    if (existingProfile != null) {
-      // If found, add the existing profile to matchedUser
-      matchedUser.add(existingProfile);
-    } else {
-      // If not found, check if it doesn't exist in 'activities' and then proceed
-      if (!activities
-          .any((activity) => activity["username"] == chatProfile["username"])) {
-        activities.insert(0, chatProfile);
-      }
-      // Add the chatProfile to matchedUser
-      matchedUser.add(chatProfile);
-    }
+    matchedUser.add(existingProfile);
+
     Navigator.of(context).push(
       MaterialPageRoute(builder: (context) => MessageChatPage()),
     );
@@ -395,7 +382,8 @@ class HomePageState extends State<HomePage> {
             ),
             TextButton(
               onPressed: () {
-                Navigator.of(context).pop(); // Close the dialog
+                Navigator.of(context) .pop(); // This will close the dialog first.
+                Navigator.of(context) .pop(); // This will close the send chat first first.
                 _goToMessageChatPage(context, text, profile);
               },
               child: Text('Send Anyway'),
@@ -411,13 +399,7 @@ class HomePageState extends State<HomePage> {
     Map<String, dynamic> chatProfile = {
       "imageUrl": profile["imageUrl"],
       "username": profile["username"],
-      "message": [
-        {
-          "text": "Send me a message!",
-          "isSender": false,
-          "dateTime": DateTime.now(),
-        }
-      ],
+      "message": [],
       "dateTime": "1 min",
       "isUnread": false,
       "unread": "0",
@@ -434,8 +416,8 @@ class HomePageState extends State<HomePage> {
     });
     // log('Sending message: $text');
     activities.insert(0, matchedUser[0]);
-    log(activities.toString());
-    log(matchedUser.toString());
+    // log(activities.toString());
+    // log(matchedUser.toString());
     Navigator.of(context).push(
       MaterialPageRoute(builder: (context) => MessageChatPage()),
     );

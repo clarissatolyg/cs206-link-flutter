@@ -13,10 +13,11 @@ List<Map<String, dynamic>> activities = [
   {
     "imageUrl":
         "https://images.unsplash.com/photo-1535704882196-765e5fc62a53?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTJ8fGJldXRpZnVsJTIwZ2lybHxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
-    "username": "Moonchild",
+    "username": "moonchild1",
+    "name": "Moonchild",
     "message": [
       {
-        "text": "Hi there!",
+        "text": "Hi there! gosh your profile is so interesting!",
         "isSender": false,
         "dateTime": DateTime.now().subtract(Duration(days: 1)),
       },
@@ -27,7 +28,7 @@ List<Map<String, dynamic>> activities = [
       },
       {
         "text": "Sticker 😍",
-        "isSender": false,
+        "isSender": true,
         "dateTime": DateTime.now().subtract(Duration(minutes: 5)),
       }
     ],
@@ -36,11 +37,12 @@ List<Map<String, dynamic>> activities = [
   },
   {
     "imageUrl":
-        "https://images.unsplash.com/photo-1502323777036-f29e3972d82f?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTR8fGJldXRpZnVsJTIwcHJvZmlsZXxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
-    "username": "Elizabeth",
+        "https://images.unsplash.com/photo-1621784564114-6eea05b89863?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTZ8fGJlYXV0aWZ1bCUyMGxhZHl8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
+    "username": "leilani1",
+    "name": "Leilani",
     "message": [
       {
-        "text": "Hi there!",
+        "text": "Hi there! What are you doing tomorrow?",
         "isSender": false,
         "dateTime": DateTime.now().subtract(Duration(days: 1)),
       }
@@ -50,22 +52,24 @@ List<Map<String, dynamic>> activities = [
   },
   {
     "imageUrl":
-        "https://images.unsplash.com/photo-1604004555489-723a93d6ce74?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTF8fGJldXRpZnVsJTIwZ2lybHxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
-    "username": "Ava",
+        "https://images.unsplash.com/photo-1576841944388-1d1b4b8494fc?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTB8fGJlYXV0aWZ1bCUyMGxhZHl8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
+    "username": "annabelle1",
+    "name": "Annabelle",
     "message": [
       {
-        "text": "Ok, See you then.",
+        "text": "I saw your profile and i kind of love your interests!",
         "isSender": false,
         "dateTime": DateTime.now().subtract(Duration(days: 2)),
       }
     ],
-    "isUnread": false,
+    "isUnread": true,
     "unread": "",
   },
   {
     "imageUrl":
-        "https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixid=MnwxMjA3fDB8MHxzZWFyY2h8OXx8YmV1dGlmdWwlMjBwcm9maWxlfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
-    "username": "Parker",
+        "https://images.unsplash.com/photo-1621184455862-c163dfb30e0f?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTd8fGJlYXV0aWZ1bCUyMGxhZHl8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
+    "username": "reagan1",
+    "name": "Reagan",
     "message": [
       {
         "text": "Hey! What's up, long time no see?",
@@ -73,30 +77,32 @@ List<Map<String, dynamic>> activities = [
         "dateTime": DateTime.now().subtract(Duration(days: 5)),
       }
     ],
-    "isUnread": false,
+    "isUnread": true,
     "unread": "",
   },
   {
     "imageUrl":
-        "https://images.unsplash.com/photo-1536588086516-cf8b058a7aa0?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NDV8fGJldXRpZnVsJTIwcHJvZmlsZXxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
-    "username": "Chloe",
+        "https://images.unsplash.com/photo-1440589473619-3cde28941638?ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8YmVhdXRpZnVsJTIwbGFkeXxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
+    "username": "roksolana1",
+    "name": "Roksolana",
     "message": [
       {
-        "text": "Thanks",
+        "text": "Are you the famous guy in Singapore?",
         "isSender": false,
         "dateTime": DateTime.now().subtract(Duration(days: 5)),
       }
     ],
-    "isUnread": false,
+    "isUnread": true,
     "unread": "0",
   },
   {
     "imageUrl":
         "https://images.unsplash.com/photo-1541499768294-44cad3c95755?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NDl8fGJldXRpZnVsJTIwcHJvZmlsZXxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
-    "username": "Grace",
+    "username": "grace1",
+    "name": "Grace",
     "message": [
       {
-        "text": "Hello! How are you?",
+        "text": "You are such a cutie, what's your phone number?",
         "isSender": false,
         "dateTime": DateTime.now().subtract(Duration(days: 7)),
       }
@@ -107,10 +113,11 @@ List<Map<String, dynamic>> activities = [
   {
     "imageUrl":
         "https://images.unsplash.com/photo-1525873765963-8931ab571545?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NTh8fGJldXRpZnVsJTIwcHJvZmlsZXxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
-    "username": "Abigail",
+    "username": "abigail1",
+    "name": "Abigail",
     "message": [
       {
-        "text": "No...are you?",
+        "text": "No...are you? God? cuz you're so heavenly!!!",
         "isSender": false,
         "dateTime": DateTime.now().subtract(Duration(days: 10)),
       }
@@ -118,20 +125,15 @@ List<Map<String, dynamic>> activities = [
     "isUnread": true,
     "unread": "1",
   },
-  {
-    "imageUrl":
-        "https://images.unsplash.com/photo-1519648023493-d82b5f8d7b8a?ixid=MnwxMjA3fDB8MHxzZWFyY2h8ODd8fGJldXRpZnVsJTIwcHJvZmlsZXxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
-    "username": "Anna",
-    "message": [
-      {
-        "text": "Are you serious?",
-        "isSender": false,
-        "dateTime": DateTime.now().subtract(Duration(days: 15)),
-      }
-    ],
-    "isUnread": true,
-    "unread": "1",
-  },
+  // {
+  //   "imageUrl":
+  //       "https://images.unsplash.com/photo-1519648023493-d82b5f8d7b8a?ixid=MnwxMjA3fDB8MHxzZWFyY2h8ODd8fGJldXRpZnVsJTIwcHJvZmlsZXxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
+  //   "username": "anna1",
+  //   "name": "Anna",
+  //   "message": [],
+  //   "isUnread": true,
+  //   "unread": "1",
+  // },
 ];
 
 List cleanList = ["hi", "hello", "bitch", "fuck", "stupid", "idiot", "dumb"];
