@@ -1,7 +1,7 @@
 const String profileUrl = "https://lh3.googleusercontent.com/a-/AOh14Ggibf7DAm7F_DwTM4czKKWEI8a7T--IvdzFanUO=s600-k-no-rp-mo";
 const String username = "Sela Monysathya";
 const String age = ", 23";
-const String location = "Royal University of Phnom Penh";
+const String location = "Singapore Management University";
 
 const double defaultSmallPadding = 5.0;
 const double defaultMediumPadding = 10.0;

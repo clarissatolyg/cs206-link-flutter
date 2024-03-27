@@ -1,5 +1,4 @@
-
-List<Map<String, dynamic>>  todayMatchItems = [
+List<Map<String, dynamic>> todayMatchItems = [
   {
     "userId": "0",
     "imageUrl":
@@ -8,6 +7,7 @@ List<Map<String, dynamic>>  todayMatchItems = [
     "name": "Leilani",
     "age": "19",
     "passion": "Chef",
+    "likedYou": "True",
     "distance": "3.2 km",
     "quote":
         "Cooking is my passion, and I believe that food has the power to bring people together.",
@@ -29,6 +29,7 @@ List<Map<String, dynamic>>  todayMatchItems = [
     "name": "Annabelle",
     "age": "22",
     "passion": "Software Engineer",
+    "likedYou": "True",
     "distance": "0.8 km",
     "quote":
         "Coding is my art, and I'm constantly seeking to create innovative solutions to real-world problems.",
@@ -44,6 +45,7 @@ List<Map<String, dynamic>>  todayMatchItems = [
     "name": "Reagan",
     "age": "24",
     "passion": "Environmental Activist",
+    "likedYou": "True",
     "distance": "5.7 km",
     "quote":
         "Protecting the planet is my calling, and I'm dedicated to making a positive impact on the environment.",
@@ -68,7 +70,7 @@ List<Map<String, dynamic>>  todayMatchItems = [
   },
 ];
 
-List<Map<String, dynamic>>  yesterdayMatchItems = [
+List<Map<String, dynamic>> yesterdayMatchItems = [
   {
     "userId": "4",
     "imageUrl":
@@ -77,6 +79,7 @@ List<Map<String, dynamic>>  yesterdayMatchItems = [
     "name": "Roksolana",
     "age": "20",
     "passion": "Animal Rights Advocate",
+    "likedYou": "True",
     "distance": "6.5 km",
     "quote":
         "I'm passionate about defending the voiceless and creating a compassionate world for all living beings.",
@@ -92,6 +95,7 @@ List<Map<String, dynamic>>  yesterdayMatchItems = [
     "name": "Raamin",
     "age": "19",
     "passion": "Fitness Trainer",
+    "likedYou": "True",
     "distance": "1.2 km",
     "quote":
         "Helping others achieve their fitness goals is my passion, and I'm committed to empowering people to live healthier lives.",
@@ -107,6 +111,7 @@ List<Map<String, dynamic>>  yesterdayMatchItems = [
     "name": "Rafaella",
     "age": "24",
     "passion": "Writer",
+    "likedYou": "True",
     "distance": "3.9 km",
     "quote":
         "Words are my world, and I believe in the transformative power of storytelling to inspire and connect us.",
@@ -126,6 +131,7 @@ List<Map<String, dynamic>>  yesterdayMatchItems = [
     "name": "Diniz",
     "age": "22",
     "passion": "Humanitarian Worker",
+    "likedYou": "True",
     "distance": "7.1 km",
     "quote":
         "Making a difference in the lives of those in need is my purpose, and I'm committed to serving humanity with compassion and empathy.",

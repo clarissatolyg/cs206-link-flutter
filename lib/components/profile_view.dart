@@ -31,9 +31,10 @@ class _ProfileViewState extends State<ProfileView> {
     int initialPage = items.indexWhere((item) =>
         item['userId'] ==
         widget.userId); // Find the index of the profile with the current userId
-    if (initialPage == -1)
+    if (initialPage == -1) {
       initialPage =
           0; // Check if the user was found. If not, default to the first profile.
+    }
     _pageController = PageController(
         initialPage:
             initialPage); // Initialize the PageController with the determined initialPage
@@ -48,7 +49,7 @@ class _ProfileViewState extends State<ProfileView> {
 
   @override
   Widget build(BuildContext context) {
-    log(widget.userId);
+    // log(widget.userId);
     // Find the index of the profile with the current userId
     int initialPage =
         items.indexWhere((item) => item['userId'] == widget.userId);
@@ -111,7 +112,8 @@ class _ProfileViewState extends State<ProfileView> {
             style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
           SizedBox(height: 8.0),
-          Text(profile['passion'], style: TextStyle(fontSize: 16)),
+          Text("${profile['passion']}, ${profile['distance']}",
+              style: TextStyle(fontSize: 16)),
           SizedBox(height: 8.0),
           Text("Interests",
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
@@ -246,7 +248,8 @@ class _ProfileViewState extends State<ProfileView> {
               child: Text("Return"),
               onPressed: () {
                 Navigator.of(context).pop(); // Close the dialog
-                Navigator.of(context).pop(); // Return to "people who like you" page
+                Navigator.of(context)
+                    .pop(); // Return to "people who like you" page
               },
             ),
           ],
