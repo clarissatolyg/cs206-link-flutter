@@ -6,6 +6,7 @@ import 'package:link_flutter/components/message_title.dart';
 import 'package:link_flutter/components/message_chat_activity_card.dart';
 import 'package:link_flutter/pages/message_page.dart';
 import 'package:link_flutter/dummy_data/message_page_json.dart';
+import 'package:link_flutter/dummy_data/home_page_json.dart';
 import 'dart:developer';
 
 class MessageChatPage extends StatefulWidget {
@@ -82,7 +83,7 @@ class _MessageChatPageState extends State<MessageChatPage> {
 
     // Temporary variable to hold the date of the last message processed
     DateTime? lastDate;
-    var existingProfile = activities.firstWhere(
+    var existingProfile = discoverItems.firstWhere(
         (activity) => activity["username"] == matchedUser[0]["username"]);
 
     for (var message in existingProfile['message']) {
@@ -190,19 +191,19 @@ class _MessageChatPageState extends State<MessageChatPage> {
       "dateTime": DateTime.now(),
     });
     var currentProfile = profile;
-    activities.remove(profile);
+    discoverItems.remove(profile);
     // log('Sending message: $text');
-    activities.insert(0, currentProfile);
+    discoverItems.insert(0, currentProfile);
     fetchActivities();
   }
 
   Future<void> fetchActivities() async {
-    List<Map<String, dynamic>> fetchedActivities = activities;
+    List<Map<String, dynamic>> fetchedItems = discoverItems;
     // await Future.delayed(Duration(seconds: 1)); // simulate network delay with a Future.delayed
 
     // Update your activities list with the fetched data
     setState(() {
-      activities = fetchedActivities;
+      discoverItems = fetchedItems;
     });
   }
 }
