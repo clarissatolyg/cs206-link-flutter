@@ -134,4 +134,4 @@ List<Map<String, dynamic>> activities = [
   },
 ];
 
-List cleanList = ["hi", "hello", "bitch", "fuck", "stupid", "idiot", "dumb"];
+List cleanList = ["Hi", "Hello", "bitch", "fuck", "stupid", "idiot", "dumb"];

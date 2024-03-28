@@ -1,3 +1,4 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:chat_bubbles/chat_bubbles.dart';
 import 'package:link_flutter/utils/constant.dart';
@@ -87,7 +88,7 @@ class HomePageState extends State<HomePage> {
       children: [
         _buildProfileImage(profile['imageUrl']),
         _buildProfileInfo(profile),
-        _buildActionButtons(profile),
+        _buildActionButtons(context, profile),
       ],
     );
   }
@@ -226,22 +227,39 @@ class HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _buildActionButtons(Map<String, dynamic> profile) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          _buildCircleButton(
-              "assets/images/cross.svg", () => _goToNextProfile()),
-          // _buildCircleButton("assets/images/link.svg", () => _goToNextProfile(),
-          //     isLarge: true),
-          _buildCircleButton("assets/images/like.svg",
-              () => _openMessageChatModal(context, profile)),
-        ],
-      ),
-    );
-  }
+  Widget _buildActionButtons(
+  BuildContext context, 
+  Map<String, dynamic> profile
+) {
+  bool condition = profile['likedYou'] != "True"; 
+  return Padding(
+    padding: const EdgeInsets.symmetric(vertical: 16.0),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        _buildCircleButton(
+          "assets/images/cross.svg", 
+          () => _goToNextProfile(),
+          isLarge: false
+        ),
+        condition
+            ? _buildCircleButton(
+                "assets/images/like.svg",
+                () => _openMessageChatModal(context, profile),
+                isLarge: false
+              )
+            : _buildCircleButton(
+                "assets/images/like.svg",
+                () {
+                  _showMatchPopUp(context, profile);
+                  _goToNextProfile();
+                },
+                isLarge: false
+              ),
+      ],
+    ),
+  );
+}
 
   Widget _buildCircleButton(String svgPath, VoidCallback onTap,
       {bool isLarge = false}) {
@@ -286,7 +304,15 @@ class HomePageState extends State<HomePage> {
       },
     );
   }
-
+  void _showMatchPopUp(BuildContext context, Map<String, dynamic> profile){
+    AwesomeNotifications().createNotification(
+      content: NotificationContent(
+        id: 1, 
+        channelKey: "match", 
+        title: "It's A Link!",
+        // icon: "assets/images/logo.png",
+        body: "Hooray! You have matched with ${profile['name']}!" ));
+  }
   void _openMessageChatModal(
       BuildContext context, Map<String, dynamic> profile) {
     showModalBottomSheet(
@@ -317,7 +343,7 @@ class HomePageState extends State<HomePage> {
                 ),
                 SizedBox(height: defaultSmallPadding),
                 Text(
-                  profile["username"],
+                  profile["name"],
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(fontWeight: FontWeight.bold),

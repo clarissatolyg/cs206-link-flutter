@@ -1,3 +1,4 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:link_flutter/theme/color.dart';
 import 'package:link_flutter/utils/constant.dart';
@@ -78,15 +79,15 @@ class _ProfileViewState extends State<ProfileView> {
   }
 
   Widget _buildProfilePage(Map<String, dynamic> profile) {
-    List<String> instagramImages = profile['instagram'].toList();
+    // List<String> instagramImages = profile['instagram'].toList();
     return ListView(
       padding: const EdgeInsets.all(16.0),
       children: [
         _buildProfileImage(profile['imageUrl'], context),
         _buildProfileInfo(profile),
-        Text("Instagram",
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-        _buildInstagramImages(instagramImages),
+        // Text("Instagram",
+        //     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+        // _buildInstagramImages(instagramImages),
         _buildActionButtons(context, profile),
       ],
     );
@@ -102,18 +103,35 @@ class _ProfileViewState extends State<ProfileView> {
   }
 
   Widget _buildProfileInfo(Map<String, dynamic> profile) {
+    List<String> instagramImages = profile['instagram'].toList();
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 16.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            "${profile['name']}, ${profile['age']}",
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          Row(
+            children: [
+              Text(
+                "${profile['name']}, ${profile['age']} ",
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              ),
+              profile['likedYou'] == "True"
+                  ? Text("liked you!",
+                      style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: primary))
+                  : Container()
+            ],
           ),
           SizedBox(height: 8.0),
           Text("${profile['passion']}, ${profile['distance']}",
               style: TextStyle(fontSize: 16)),
+          SizedBox(height: 4.0),
+          Text("Bio",
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+          Text(profile['quote'], style: TextStyle(fontSize: 12)),
+          SizedBox(height: 4.0),
           SizedBox(height: 8.0),
           Text("Interests",
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
@@ -122,9 +140,9 @@ class _ProfileViewState extends State<ProfileView> {
           Text("Music Genre",
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
           _buildMusicGenre(profile),
-          SizedBox(height: 4.0),
-          Text(profile['quote'], style: TextStyle(fontSize: 12)),
-          SizedBox(height: 4.0),
+          Text("Instagram",
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+          _buildInstagramImages(instagramImages),
         ],
       ),
     );
@@ -194,6 +212,7 @@ class _ProfileViewState extends State<ProfileView> {
 
   Widget _buildActionButtons(
       BuildContext context, Map<String, dynamic> profile) {
+    bool condition = profile['likedYou'] != "True";
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 16.0),
       child: Row(
@@ -202,11 +221,14 @@ class _ProfileViewState extends State<ProfileView> {
           _buildCircleButton(
               "assets/images/cross.svg", () => _goToNextProfile(),
               isLarge: false),
-          // _buildCircleButton("assets/images/link.svg", () => _goToNextProfile(),
-          //     isLarge: true),
-          _buildCircleButton("assets/images/like.svg",
-              () => _openMessageChatModal(context, profile),
-              isLarge: false),
+          condition
+              ? _buildCircleButton("assets/images/like.svg",
+                  () => _openMessageChatModal(context, profile),
+                  isLarge: false)
+              : _buildCircleButton("assets/images/like.svg", () {
+                  _showMatchPopUp(context, profile);
+                  _goToNextProfile();
+                }, isLarge: false),
         ],
       ),
     );
@@ -256,6 +278,16 @@ class _ProfileViewState extends State<ProfileView> {
         );
       },
     );
+  }
+
+  void _showMatchPopUp(BuildContext context, Map<String, dynamic> profile) {
+    AwesomeNotifications().createNotification(
+        content: NotificationContent(
+            id: 1,
+            channelKey: "match",
+            title: "It's A Link!",
+            // icon: "assets/images/logo.png",
+            body: "Hooray! You have matched with ${profile['name']}!"));
   }
 
   void _openMessageChatModal(

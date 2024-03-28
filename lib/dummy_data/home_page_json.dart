@@ -61,6 +61,7 @@ const List discoverItems = [
     "name": "Hadley",
     "age": "25",
     "passion": "Graphic Designer",
+    "likedYou": "True",
     "distance": "4.8 km",
     "quote":
         "Design is my language, and I believe in the power of visuals to communicate ideas and evoke emotions.",
