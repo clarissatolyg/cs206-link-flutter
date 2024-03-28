@@ -6,7 +6,9 @@ import 'package:link_flutter/components/message_listtile.dart';
 import 'package:link_flutter/components/message_title.dart';
 import 'package:link_flutter/components/search_textfield.dart';
 import 'package:link_flutter/pages/message_chat_page.dart';
+import 'package:link_flutter/dummy_data/home_page_json.dart';
 import 'package:link_flutter/dummy_data/message_page_json.dart';
+import 'dart:developer';
 
 class MessagePage extends StatefulWidget {
   const MessagePage({Key? key}) : super(key: key);
@@ -55,8 +57,12 @@ class _MessagePageState extends State<MessagePage> {
   }
 
   Widget getBody(BuildContext context, Size size) {
+    // Filter activities to include only those where 'isMatched' is true
+    List<Map<String, dynamic>> matchedActivities = discoverItems.where((activity) => activity["isMatched"] == true).toList();
+    // log(matchedActivities.toString());
+
     // Sort activities based on isUnread status
-    activities.sort((a, b) {
+    discoverItems.sort((a, b) {
       if (a["isUnread"] && !b["isUnread"]) {
         return -1; // 'a' should come before 'b'
       } else if (!a["isUnread"] && b["isUnread"]) {
@@ -73,14 +79,14 @@ class _MessagePageState extends State<MessagePage> {
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
-            children: List.generate(activities.length, (index) {
+            children: List.generate(matchedActivities.length, (index) {
               return Padding(
                 padding: EdgeInsets.only(
                     left: index == 0 ? defaultPadding : defaultPadding,
                     right:
-                        index == (activities.length - 1) ? defaultPadding : 0),
+                        index == (discoverItems.length - 1) ? defaultPadding : 0),
                 child: MessageActivityCard(
-                  itemList: activities[index],
+                  itemList: matchedActivities[index],
                   onPressed: () {
                     _goToMessageChatPage(context, index);
                   },
@@ -93,12 +99,12 @@ class _MessagePageState extends State<MessagePage> {
           title: "Messages",
         ),
         Column(
-          children: List.generate(activities.length, (index) {
+          children: List.generate(matchedActivities.length, (index) {
             return MessageListTitle(
               onPressed: () {
                 _goToMessageChatPage(context, index);
               },
-              itemList: activities[index],
+              itemList: matchedActivities[index],
             );
           }),
         ),
@@ -111,7 +117,7 @@ class _MessagePageState extends State<MessagePage> {
 
   Future<void> _goToMessageChatPage(BuildContext context, int index) async {
     matchedUser = [];
-    Map<String, dynamic> currentProfile = activities[index];
+    Map<String, dynamic> currentProfile = discoverItems[index];
     Map<String, dynamic> chatProfile = {
       "imageUrl": currentProfile["imageUrl"],
       "username": currentProfile["username"],
@@ -120,53 +126,49 @@ class _MessagePageState extends State<MessagePage> {
       "isUnread": true,
       "unread": "0",
     };
-    var existingProfile = activities.firstWhere(
-      (activity) => activity["username"] == chatProfile["username"],
-    );
+    var existingProfile = discoverItems.firstWhere(
+    (activity) =>
+        activity["username"] == chatProfile["username"] &&
+        activity["likedYou"] == true,
+  );
 
     if (existingProfile != null) {
       // If found, add the existing profile to matchedUser
       matchedUser.add(existingProfile);
     } else {
-      // If not found, check if it doesn't exist in 'activities' and then proceed
-      if (!activities
-          .any((activity) => activity["username"] == chatProfile["username"])) {
-        activities.insert(0, chatProfile);
-      }
-      // Add the chatProfile to matchedUser
-      matchedUser.add(chatProfile);
+      log("yes");
+      // // If not found, check if it doesn't exist in 'activities' and then proceed
+      // if (!discoverItems
+      //     .any((activity) => activity["username"] == chatProfile["username"])) {
+      //   discoverItems.insert(0, chatProfile);
+      // }
+      // // Add the chatProfile to matchedUser
+      // matchedUser.add(chatProfile);
     }
-    var existingReadStatus = activities.firstWhere(
-      (messages) => messages["isUnread"] == matchedUser[0]["isUnread"],
-    );
 
-    if (existingReadStatus != null) {
       // If found, add the existing profile to matchedUser
-      matchedUser[0]["isUnread"] = false;
-      existingReadStatus["isUnread"] = false;
-    }
+      currentProfile["isUnread"] = false;
 
     await Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) =>
               MessageChatPage(), // Replace NewPage with your target page
-        )).then((_) {
-      // This block runs when you pop back to the MessagePage from MessageChatPage
-      // Call setState to refresh the UI if needed or call fetchActivities to re-fetch data
+        ));
       fetchActivities(); // Assuming fetchActivities updates your state and UI
-    });
   }
 
   Future<void> fetchActivities() async {
-    List<Map<String, dynamic>> fetchedActivities = activities;
+    List<Map<String, dynamic>> fetchedItems = discoverItems;
+    // await Future.delayed(Duration(seconds: 1)); // simulate network delay with a Future.delayed
+
+    // Update your activities list with the fetched data
+    setState(() {
+      discoverItems = fetchedItems;
+    });
 
     // Simulate fetching data from a network source with a Future.delayed
     // await Future.delayed(Duration(seconds: 1)); // Simulate network delay
 
-    // Update your activities list with the fetched data
-    setState(() {
-      activities = fetchedActivities;
-    });
   }
 }

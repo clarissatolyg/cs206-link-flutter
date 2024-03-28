@@ -18,6 +18,9 @@ class HomePage extends StatefulWidget {
 
 class HomePageState extends State<HomePage> {
   final PageController _pageController = PageController();
+  final ScrollController _scrollController = ScrollController();
+  TextEditingController messageController = TextEditingController();
+  bool messageSent = false;
 
   List items = [];
 
@@ -25,6 +28,14 @@ class HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     items = discoverItems;
+  }
+
+  @override
+  void dispose() {
+    _scrollController
+        .dispose(); // Clean up the controller when the widget is disposed.
+    messageController.dispose();
+    super.dispose();
   }
 
   @override
@@ -83,6 +94,7 @@ class HomePageState extends State<HomePage> {
 
   Widget _buildProfilePage(Map<String, dynamic> profile) {
     return ListView(
+      controller: _scrollController,
       padding: const EdgeInsets.all(16.0),
       children: [
         _buildProfileImage(profile['imageUrl']),
@@ -117,7 +129,6 @@ class HomePageState extends State<HomePage> {
     );
   }
 
-
   Widget _buildProfileInfo(Map<String, dynamic> profile) {
     List<String> instagramImages = profile['instagram'].toList();
     return Padding(
@@ -131,7 +142,7 @@ class HomePageState extends State<HomePage> {
                 "${profile['name']}, ${profile['age']} ",
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
-              profile['likedYou'] == "True"
+              profile['likedYou'] == true
                   ? Text("liked you!",
                       style: TextStyle(
                           fontSize: 24,
@@ -236,8 +247,19 @@ class HomePageState extends State<HomePage> {
               "assets/images/cross.svg", () => _goToNextProfile()),
           // _buildCircleButton("assets/images/link.svg", () => _goToNextProfile(),
           //     isLarge: true),
-          _buildCircleButton("assets/images/like.svg",
-              () => _openMessageChatModal(context, profile)),
+          // _buildCircleButton("assets/images/like.svg",
+          //     () => _openMessageChatModal(context, profile)),
+          if (profile['likedYou'] == true)
+            _buildCircleButton(
+              "assets/images/like.svg",
+              () => _showTopSnackBar(context, profile,
+                  "Yes! It's a match!\n${profile['name']} has liked you!"),
+            )
+          else
+            _buildCircleButton(
+              "assets/images/like.svg",
+              () => _openMessageChatModal(context, profile),
+            ),
         ],
       ),
     );
@@ -287,13 +309,13 @@ class HomePageState extends State<HomePage> {
     );
   }
 
-  void _openMessageChatModal(
-      BuildContext context, Map<String, dynamic> profile) {
-    showModalBottomSheet(
+  Future<void> _openMessageChatModal(
+      BuildContext context, Map<String, dynamic> profile) async {
+    await showModalBottomSheet(
       context: context,
       isScrollControlled:
           true, // This allows the sheet to expand to full height
-      builder: (context) {
+      builder: (BuildContext context) {
         return Padding(
           padding: MediaQuery.of(context).viewInsets, // Adjusts for keyboard
           child: Container(
@@ -331,10 +353,31 @@ class HomePageState extends State<HomePage> {
                 ),
                 SizedBox(height: defaultSmallPadding),
                 // Your MessageBar widget here
-                MessageBar(
-                  onSend: (_) => _sendMessage(_, profile),
-                  // Additional actions can be added here
-                ),
+                Column(
+                  children: [
+                    // Other widgets
+                    _messageInputOrBrowsingButton(profile),
+                    // TextField(
+                    //   controller: messageController,
+                    //   decoration: InputDecoration(
+                    //     hintText: 'Type a message...',
+                    //     suffixIcon: IconButton(
+                    //       icon: Icon(Icons.send),
+                    //       onPressed: () =>
+                    //           _sendMessage(messageController.text, profile),
+                    //     ),
+                    //   ),
+                    //   onSubmitted: (_) => _sendMessage(_,
+                    //       profile), // Send message when user submits the text field
+                    // ),
+                  ],
+                )
+                // MessageBar(
+                //   onSend: (_) => _sendMessage(_, profile),
+                //   controller:
+                //       messageController, // Assign your controller here
+                //   // Additional actions can be added here
+                // ),
               ],
             ),
           ),
@@ -343,42 +386,133 @@ class HomePageState extends State<HomePage> {
     );
   }
 
-  void _goToMessageChat(Map<String, dynamic> profile) {
-    Map<String, dynamic> chatProfile = {
-      "imageUrl": profile["imageUrl"],
-      "username": profile["username"],
-      "message": [
-        {
-          "text": "Send me a message!",
-          "isSender": false,
-          "dateTime": DateTime.now(),
-        }
-      ],
-      "dateTime": "1 min",
-      "isUnread": false,
-      "unread": "0",
-    };
-    matchedUser = [];
-    var existingProfile = activities.firstWhere(
-      (message) => message["username"] == chatProfile["username"],
+  void _showTopSnackBar(BuildContext context, Map<String, dynamic> profile,
+      String message) async {
+    List<String> messageParts = message.split('\n');
+
+    OverlayEntry overlayEntry = OverlayEntry(
+      builder: (context) => Positioned(
+        top: 30,
+        left: 15,
+        right: 15,
+        child: Material(
+          color: Color(0xFFCB9CFC), // Material color
+          child: Container(
+            padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+            decoration: BoxDecoration(
+              color: Color(0xFFCB9CFC),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black26,
+                  blurRadius: 4,
+                  spreadRadius: 2,
+                  offset: Offset(0, 2),
+                ),
+              ],
+            ),
+            child: Row(
+              mainAxisAlignment:
+                  MainAxisAlignment.start, // To wrap the content in the column
+              children: [
+                Container(
+                  padding: EdgeInsets.all(defaultPadding / 10),
+                  height: 41,
+                  width: 41,
+                  decoration: BoxDecoration(
+                    color: Colors.white, // Define the white color
+                    shape: BoxShape.circle,
+                    border: Border.all(width: 2, color: Colors.white),
+                    image: DecorationImage(
+                      image: NetworkImage(profile[
+                          'imageUrl']), // Make sure `img` is a valid URL
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                    width:
+                        16), // Give some horizontal space between the container and the text
+                Expanded(
+                  child: RichText(
+                    // Use Expanded to take up the remaining space
+                    text: TextSpan(
+                      // Default text style applies to all child TextSpans if not overridden
+                      style: TextStyle(fontSize: 16, color: Colors.white),
+                      children: <TextSpan>[
+                        // First line (bold)
+                        TextSpan(
+                          text: messageParts[0] + '\n', // Add the newline back
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        // Remaining text
+                        if (messageParts.length > 1)
+                          TextSpan(
+                            text: messageParts
+                                .sublist(1)
+                                .join('\n'), // Join back the remaining parts
+                            // No need to specify a style here unless you want to change it from the default
+                          ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
 
-    if (existingProfile != null) {
-      // If found, add the existing profile to matchedUser
-      matchedUser.add(existingProfile);
-    } else {
-      // If not found, check if it doesn't exist in 'activities' and then proceed
-      if (!activities
-          .any((activity) => activity["username"] == chatProfile["username"])) {
-        activities.insert(0, chatProfile);
-      }
-      // Add the chatProfile to matchedUser
-      matchedUser.add(chatProfile);
-    }
-    Navigator.of(context).push(
-      MaterialPageRoute(builder: (context) => MessageChatPage()),
+    // Find the overlay and insert the created entry
+    Overlay.of(context)?.insert(overlayEntry);
+
+    // Automatically remove the overlay after 3 seconds
+    Future.delayed(Duration(seconds: 3)).then((_) {
+      overlayEntry.remove();
+    });
+
+    profile['isMatched'] = true;
+
+    _scrollToTop();
+    _goToNextProfile();
+    fetchActivities();
+  }
+
+  void _scrollToTop() {
+    _scrollController.animateTo(
+      0, // Scroll to 0.0 offset (top)
+      duration: Duration(milliseconds: 30), // Duration of the scroll
+      curve: Curves.easeInOut, // Animation curve
     );
   }
+
+// Usage:
+
+  // void _openLikedYouModal(BuildContext context, Map<String, dynamic> profile) {
+  //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+  //     content: Text(
+  //         '${profile["name"]} has liked you, head over to message inbox to chat now!'),
+  //     duration:
+  //         Duration(seconds: 2), // The notification will last for a few seconds
+  //     behavior: SnackBarBehavior
+  //         .floating, // This makes it floating above the bottom of the screen
+  //   )
+  //       );
+  // }
+
+  // void _goToMessageChat(Map<String, dynamic> profile) {
+  //   matchedUser = [];
+  //   // log(profile["username"]);
+  //   var existingProfile = discoverItems.firstWhere(
+  //     (item) => item["username"] == profile["username"],
+  //   );
+
+  //   matchedUser.add(existingProfile);
+
+  //   Navigator.of(context).push(
+  //     MaterialPageRoute(builder: (context) => MessageChatPage()),
+  //   );
+  // }
 
   void _sendMessage(String text, Map<String, dynamic> profile) {
     bool isTextClean = _checkMessageRequirements(text, profile);
@@ -423,7 +557,9 @@ class HomePageState extends State<HomePage> {
             ),
             TextButton(
               onPressed: () {
-                Navigator.of(context).pop(); // Close the dialog
+                Navigator.of(context)
+                    .pop(); // This will close the dialog first.
+                // Navigator.of(context) .pop(); // This will close the send chat first first.
                 _goToMessageChatPage(context, text, profile);
               },
               child: Text('Send Anyway'),
@@ -439,16 +575,19 @@ class HomePageState extends State<HomePage> {
     Map<String, dynamic> chatProfile = {
       "imageUrl": profile["imageUrl"],
       "username": profile["username"],
-      "message": [
-        {
-          "text": "Send me a message!",
-          "isSender": false,
-          "dateTime": DateTime.now(),
-        }
-      ],
-      "dateTime": "1 min",
+      "name": profile["name"],
+      "age": profile["age"],
+      "passion": profile["passion"],
+      "likedYou": false,
+      "isMatched": false,
+      "distance": profile["distance"],
+      "quote": profile["quote"],
+      "interests": profile["interests"],
+      "musicGenre": profile["musicGenre"],
+      "instagram": profile["instagram"],
       "isUnread": false,
       "unread": "0",
+      "message": [],
     };
     if (matchedUser.isEmpty) {
       matchedUser.add(chatProfile);
@@ -460,24 +599,84 @@ class HomePageState extends State<HomePage> {
       "isSender": true,
       "dateTime": DateTime.now(),
     });
+
     // log('Sending message: $text');
-    activities.insert(0, matchedUser[0]);
-    log(activities.toString());
-    log(matchedUser.toString());
-    Navigator.of(context).push(
-      MaterialPageRoute(builder: (context) => MessageChatPage()),
-    );
-    _goToNextProfile();
+    discoverItems.insert(0, matchedUser[0]);
+    // log(activities.toString());
+    // log(matchedUser.toString());
+
+    // Navigator.of(context).push(
+    //   MaterialPageRoute(builder: (context) => MessageChatPage()),
+    // );
+    
+    Navigator.of(context).pop();
+    _openMessageChatModal(context, profile);
+    fetchMessageController(text);
     fetchActivities();
+    _goToNextProfile();
+  }
+
+  Future<void> fetchMessageController(String text) async {
+    setState(() {
+      // Add the message to the list and update the UI
+      messageSent = true;
+      messageController.text = text;
+    });
   }
 
   Future<void> fetchActivities() async {
-    List<Map<String, dynamic>> fetchedActivities = activities;
+    List<Map<String, dynamic>> fetchedItems = discoverItems;
     // await Future.delayed(Duration(seconds: 1)); // simulate network delay with a Future.delayed
 
     // Update your activities list with the fetched data
     setState(() {
-      activities = fetchedActivities;
+      discoverItems = fetchedItems;
     });
+  }
+
+  // Function to reset the message input and hide the browsing button
+  void _resetMessageInput() {
+    setState(() {
+      messageSent = false;
+      messageController.clear();
+    });
+  }
+
+  // Replace your TextField with this method
+  Widget _messageInputOrBrowsingButton(Map<String, dynamic> profile) {
+    if (messageSent) {
+      // If the message has been sent, show the "Keep Browsing" button
+      return Column(
+        children: [
+          Text(messageSent ? "You said:\n" : "",
+              style: TextStyle(fontWeight: FontWeight.bold)),
+          Text(messageSent ? "${messageController.text}" : ""),
+
+          // Only show the "Keep Browsing" button if a message has been sent
+          if (messageSent)
+            ElevatedButton(
+              onPressed: () {
+                _resetMessageInput(); // Optional: Clear the message input
+                Navigator.of(context).pop();
+                _goToNextProfile(); // Navigate to the next profile
+              },
+              child: Text('Keep Browsing'),
+            ),
+        ],
+      );
+    } else {
+      // If no message has been sent, show the TextField
+      return TextField(
+        controller: messageController,
+        decoration: InputDecoration(
+          hintText: 'Type a message...',
+          suffixIcon: IconButton(
+            icon: Icon(Icons.send),
+            onPressed: () => _sendMessage(messageController.text, profile),
+          ),
+        ),
+        onSubmitted: (text) => _sendMessage(text, profile),
+      );
+    }
   }
 }

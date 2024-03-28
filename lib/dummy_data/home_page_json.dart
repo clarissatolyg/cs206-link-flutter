@@ -1,4 +1,4 @@
-const List discoverItems = [
+List<Map<String, dynamic>> discoverItems = [
   {
     "userId": "0",
     "imageUrl":
@@ -7,7 +7,8 @@ const List discoverItems = [
     "name": "Leilani",
     "age": "19",
     "passion": "Chef",
-    "likedYou": "True",
+    "likedYou": true,
+    "isMatched": false,
     "distance": "3.2 km",
     "quote":
         "Cooking is my passion, and I believe that food has the power to bring people together.",
@@ -19,7 +20,16 @@ const List discoverItems = [
       "assets/images/img3.jpg",
       "assets/images/img10.jpg",
       "assets/images/img11.jpg"
-    }
+    },
+    "isUnread": true,
+    "unread": "1",
+    "message": [
+      {
+        "text": "Hi there! What are you doing tomorrow?",
+        "isSender": false,
+        "dateTime": DateTime.now().subtract(Duration(days: 1)),
+      }
+    ],
   },
   {
     "userId": "1",
@@ -29,13 +39,23 @@ const List discoverItems = [
     "name": "Annabelle",
     "age": "22",
     "passion": "Software Engineer",
-    "likedYou": "True",
+    "likedYou": true,
+    "isMatched": false,
     "distance": "0.8 km",
     "quote":
         "Coding is my art, and I'm constantly seeking to create innovative solutions to real-world problems.",
     "interests": "Technology, Gaming, Sci-Fi",
     "musicGenre": "Electronic, Hip Hop, Alternative",
-    "instagram": {"assets/images/img4.jpg", "assets/images/img5.jpg"}
+    "instagram": {"assets/images/img4.jpg", "assets/images/img5.jpg"},
+    "isUnread": true,
+    "unread": "1",
+    "message": [
+      {
+        "text": "I saw your profile and i kind of love your interests!",
+        "isSender": false,
+        "dateTime": DateTime.now().subtract(Duration(days: 2)),
+      }
+    ]
   },
   {
     "userId": "2",
@@ -45,13 +65,23 @@ const List discoverItems = [
     "name": "Reagan",
     "age": "24",
     "passion": "Environmental Activist",
-    "likedYou": "True",
+    "likedYou": true,
+    "isMatched": false,
     "distance": "5.7 km",
     "quote":
         "Protecting the planet is my calling, and I'm dedicated to making a positive impact on the environment.",
     "interests": "Sustainability, Hiking, Yoga",
     "musicGenre": "Folk, World, Reggae",
-    "instagram": {"assets/images/img12.jpg", "assets/images/img7.jpg"}
+    "instagram": {"assets/images/img12.jpg", "assets/images/img7.jpg"},
+    "isUnread": true,
+    "unread": "1",
+    "message": [
+      {
+        "text": "Hey! What's up, long time no see?",
+        "isSender": false,
+        "dateTime": DateTime.now().subtract(Duration(days: 5)),
+      }
+    ]
   },
   {
     "userId": "3",
@@ -61,6 +91,9 @@ const List discoverItems = [
     "name": "Hadley",
     "age": "25",
     "passion": "Graphic Designer",
+    "likedYou": false,
+    "isMatched": false,
+    "isUnread": false,
     "distance": "4.8 km",
     "quote":
         "Design is my language, and I believe in the power of visuals to communicate ideas and evoke emotions.",
@@ -76,7 +109,9 @@ const List discoverItems = [
     "name": "Renee",
     "age": "23",
     "passion": "Professional model",
-    "likedYou": "False",
+    "likedYou": false,
+    "isMatched": false,
+    "isUnread": false,
     "distance": "1 km",
     "quote":
         "If you're into deep conversations over a cup of coffee and spontaneous weekend getaways, let's chat.",
@@ -98,7 +133,9 @@ const List discoverItems = [
     "name": "Tania Parker",
     "age": "23",
     "passion": "Fashion designer",
-    "likedYou": "False",
+    "likedYou": false,
+    "isMatched": false,
+    "isUnread": false,
     "distance": "1.5 km",
     "quote":
         "If you're passionate about life, love deep conversations, and enjoy spontaneous adventures, let's make memories together.",
@@ -113,7 +150,9 @@ const List discoverItems = [
     "username": "kamryn1",
     "name": "Kamryn",
     "age": "19",
-    "likedYou": "False",
+    "likedYou": false,
+    "isMatched": false,
+    "isUnread": false,
     "passion": "Forensic accountant",
     "distance": "2 km",
     "quote":
@@ -129,7 +168,9 @@ const List discoverItems = [
     "username": "abril1",
     "name": "Abril",
     "age": "20",
-    "likedYou": "False",
+    "likedYou": false,
+    "isMatched": false,
+    "isUnread": false,
     "passion": "Social media coordinator",
     "distance": "2 km",
     "quote":
@@ -146,13 +187,23 @@ const List discoverItems = [
     "name": "Roksolana",
     "age": "20",
     "passion": "Animal Rights Advocate",
-    "likedYou": "True",
+    "likedYou": true,
+    "isMatched": false,
     "distance": "6.5 km",
     "quote":
         "I'm passionate about defending the voiceless and creating a compassionate world for all living beings.",
     "interests": "Animal welfare, Veganism, Meditation",
     "musicGenre": "Acoustic, Classical, World",
-    "instagram": {"assets/images/img8.jpg", "assets/images/img9.jpg"}
+    "instagram": {"assets/images/img8.jpg", "assets/images/img9.jpg"},
+    "isUnread": true,
+    "unread": "1",
+    "message": [
+      {
+        "text": "Are you the famous guy in Singapore?",
+        "isSender": false,
+        "dateTime": DateTime.now().subtract(Duration(days: 5)),
+      }
+    ],
   },
   {
     "userId": "5",
@@ -162,13 +213,23 @@ const List discoverItems = [
     "name": "Raamin",
     "age": "19",
     "passion": "Fitness Trainer",
-    "likedYou": "True",
+    "likedYou": true,
+    "isMatched": false,
     "distance": "1.2 km",
     "quote":
         "Helping others achieve their fitness goals is my passion, and I'm committed to empowering people to live healthier lives.",
     "interests": "Strength training, Nutrition, Outdoor activities",
     "musicGenre": "EDM, Pop, Dance",
-    "instagram": {"assets/images/img12.jpg", "assets/images/img7.jpg"}
+    "instagram": {"assets/images/img12.jpg", "assets/images/img7.jpg"},
+    "isUnread": true,
+    "unread": "1",
+    "message": [
+      {
+        "text": "You are such a cutie, what's your phone number?",
+        "isSender": false,
+        "dateTime": DateTime.now().subtract(Duration(days: 7)),
+      }
+    ]
   },
   {
     "userId": "6",
@@ -178,7 +239,8 @@ const List discoverItems = [
     "name": "Rafaella",
     "age": "24",
     "passion": "Writer",
-    "likedYou": "True",
+    "likedYou": true,
+    "isMatched": false,
     "distance": "3.9 km",
     "quote":
         "Words are my world, and I believe in the transformative power of storytelling to inspire and connect us.",
@@ -188,7 +250,16 @@ const List discoverItems = [
       "assets/images/img12.jpg",
       "assets/images/img13.jpg",
       "assets/images/img11.jpg"
-    }
+    },
+    "isUnread": true,
+    "unread": "1",
+    "message": [
+      {
+        "text": "you're so handsome!!!",
+        "isSender": false,
+        "dateTime": DateTime.now().subtract(Duration(days: 10)),
+      }
+    ]
   },
   {
     "userId": "7",
@@ -198,7 +269,8 @@ const List discoverItems = [
     "name": "Diniz",
     "age": "22",
     "passion": "Humanitarian Worker",
-    "likedYou": "True",
+    "likedYou": true,
+    "isMatched": false,
     "distance": "7.1 km",
     "quote":
         "Making a difference in the lives of those in need is my purpose, and I'm committed to serving humanity with compassion and empathy.",
@@ -207,6 +279,51 @@ const List discoverItems = [
     "instagram": {
       "assets/images/img3.jpg",
       "assets/images/img10.jpg",
-    }
+    },
+    "isUnread": true,
+    "unread": "1",
+    "message": [
+      {
+        "text": "No...are you? God? cuz you're so heavenly!!!",
+        "isSender": false,
+        "dateTime": DateTime.now().subtract(Duration(days: 10)),
+      }
+    ],
   },
+  {
+    "userId": "12",
+    "imageUrl":
+        "https://images.unsplash.com/photo-1535704882196-765e5fc62a53?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTJ8fGJldXRpZnVsJTIwZ2lybHxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
+    "username": "moonchild1",
+    "name": "Moonchild",
+    "age": "25",
+    "passion": "Student",
+    "likedYou": true,
+    "isMatched": true,
+    "distance": "2 km",
+    "quote":
+        "Looking for someone who can keep up with my wanderlust and match my zest for life.",
+    "interests": "Fashion, Travel, Music",
+    "musicGenre": "Pop, Rock, Jazz",
+    "instagram": {"assets/images/img8.jpg", "assets/images/img9.jpg"},
+    "message": [
+      {
+        "text": "Hi there! gosh your profile is so interesting!",
+        "isSender": false,
+        "dateTime": DateTime.now().subtract(Duration(days: 1)),
+      },
+      {
+        "text": "How are you?",
+        "isSender": true,
+        "dateTime": DateTime.now(),
+      },
+      {
+        "text": "Sticker 😍",
+        "isSender": true,
+        "dateTime": DateTime.now().subtract(Duration(minutes: 5)),
+      }
+    ],
+    "isUnread": false,
+    "unread": "0",
+  }
 ];

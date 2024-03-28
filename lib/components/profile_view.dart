@@ -7,6 +7,7 @@ import 'package:link_flutter/components/box_svg_button.dart';
 import 'package:link_flutter/pages/message_chat_page.dart';
 import 'package:link_flutter/dummy_data/match_page_json.dart';
 import 'package:link_flutter/dummy_data/message_page_json.dart';
+import 'package:link_flutter/dummy_data/home_page_json.dart';
 import 'dart:developer';
 
 class ProfileView extends StatefulWidget {
@@ -330,7 +331,7 @@ class _ProfileViewState extends State<ProfileView> {
       "unread": "0",
     };
     matchedUser = [];
-    var existingProfile = activities.firstWhere(
+    var existingProfile = discoverItems.firstWhere(
       (message) => message["username"] == chatProfile["username"],
     );
     log(existingProfile.toString());
@@ -340,9 +341,9 @@ class _ProfileViewState extends State<ProfileView> {
       matchedUser.add(existingProfile);
     } else {
       // If not found, check if it doesn't exist in 'activities' and then proceed
-      if (!activities
-          .any((activity) => activity["username"] == chatProfile["username"])) {
-        activities.insert(0, chatProfile);
+      if (!discoverItems
+          .any((item) => item["username"] == chatProfile["username"])) {
+        discoverItems.insert(0, chatProfile);
       }
       // Add the chatProfile to matchedUser
       matchedUser.add(chatProfile);
@@ -434,7 +435,7 @@ class _ProfileViewState extends State<ProfileView> {
       "dateTime": DateTime.now(),
     });
     // log('Sending message: $text');
-    activities.insert(0, matchedUser[0]);
+    discoverItems.insert(0, matchedUser[0]);
     Navigator.of(context).push(
       MaterialPageRoute(builder: (context) => MessageChatPage()),
     );
@@ -442,12 +443,12 @@ class _ProfileViewState extends State<ProfileView> {
   }
 
   Future<void> fetchActivities() async {
-    List<Map<String, dynamic>> fetchedActivities = activities;
+    List<Map<String, dynamic>> fetchedItems = discoverItems;
     // await Future.delayed(Duration(seconds: 1)); // simulate network delay with a Future.delayed
 
     // Update your activities list with the fetched data
     setState(() {
-      activities = fetchedActivities;
+      discoverItems = fetchedItems;
     });
   }
 }
