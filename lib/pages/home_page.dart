@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:chat_bubbles/chat_bubbles.dart';
 import 'package:link_flutter/utils/constant.dart';
 import 'package:link_flutter/theme/color.dart';
 import 'package:link_flutter/components/circle_button.dart';
 import 'package:link_flutter/components/box_svg_button.dart';
-import 'package:link_flutter/pages/message_chat_page.dart';
 import 'package:link_flutter/dummy_data/home_page_json.dart';
 import 'package:link_flutter/dummy_data/message_page_json.dart';
-import 'dart:developer';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -157,7 +154,7 @@ class HomePageState extends State<HomePage> {
           SizedBox(height: 4.0),
           Text("Bio",
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-          Text(profile['quote'], style: TextStyle(fontSize: 12)),
+          Text(profile['quote'], style: TextStyle(fontSize: 14)),
           SizedBox(height: 4.0),
           SizedBox(height: 8.0),
           Text("Interests",
@@ -245,10 +242,6 @@ class HomePageState extends State<HomePage> {
         children: [
           _buildCircleButton(
               "assets/images/cross.svg", () => _goToNextProfile()),
-          // _buildCircleButton("assets/images/link.svg", () => _goToNextProfile(),
-          //     isLarge: true),
-          // _buildCircleButton("assets/images/like.svg",
-          //     () => _openMessageChatModal(context, profile)),
           if (profile['likedYou'] == true)
             _buildCircleButton(
               "assets/images/like.svg",
@@ -316,10 +309,20 @@ class HomePageState extends State<HomePage> {
       isScrollControlled:
           true, // This allows the sheet to expand to full height
       builder: (BuildContext context) {
+        // Calculate extra padding, adjust this value as needed
+        final double extraBottomPadding = 20.0;
+        // Existing padding plus extra bottom padding
+        final EdgeInsets effectivePadding = MediaQuery.of(context)
+            .viewInsets
+            .copyWith(
+                bottom: MediaQuery.of(context).viewInsets.bottom +
+                    extraBottomPadding);
         return Padding(
-          padding: MediaQuery.of(context).viewInsets, // Adjusts for keyboard
+          padding:
+              effectivePadding, // Adjusts for keyboard and adds extra space
           child: Container(
-            padding: EdgeInsets.all(defaultPadding / 10),
+            padding: EdgeInsets.all(
+                16.0), // Use your default padding variable as needed
             child: Column(
               mainAxisSize:
                   MainAxisSize.min, // To make the bottom sheet fit its content
@@ -357,27 +360,8 @@ class HomePageState extends State<HomePage> {
                   children: [
                     // Other widgets
                     _messageInputOrBrowsingButton(profile),
-                    // TextField(
-                    //   controller: messageController,
-                    //   decoration: InputDecoration(
-                    //     hintText: 'Type a message...',
-                    //     suffixIcon: IconButton(
-                    //       icon: Icon(Icons.send),
-                    //       onPressed: () =>
-                    //           _sendMessage(messageController.text, profile),
-                    //     ),
-                    //   ),
-                    //   onSubmitted: (_) => _sendMessage(_,
-                    //       profile), // Send message when user submits the text field
-                    // ),
                   ],
                 )
-                // MessageBar(
-                //   onSend: (_) => _sendMessage(_, profile),
-                //   controller:
-                //       messageController, // Assign your controller here
-                //   // Additional actions can be added here
-                // ),
               ],
             ),
           ),
@@ -390,81 +374,73 @@ class HomePageState extends State<HomePage> {
       String message) async {
     List<String> messageParts = message.split('\n');
 
+    double topPadding =
+        MediaQuery.of(context).padding.top; // Get height of dynamic island
+
     OverlayEntry overlayEntry = OverlayEntry(
       builder: (context) => Positioned(
-        top: 30,
-        left: 15,
-        right: 15,
-        child: Material(
-          color: Color(0xFFCB9CFC), // Material color
-          child: Container(
-            padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-            decoration: BoxDecoration(
-              color: Color(0xFFCB9CFC),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black26,
-                  blurRadius: 4,
-                  spreadRadius: 2,
-                  offset: Offset(0, 2),
-                ),
-              ],
-            ),
-            child: Row(
-              mainAxisAlignment:
-                  MainAxisAlignment.start, // To wrap the content in the column
-              children: [
+          top: 0,
+          left: 0,
+          right: 0,
+          child: AnimatedContainer(
+              duration: Duration(milliseconds: 300),
+              curve: Curves.easeOut,
+              padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                        color: Colors.black26,
+                        blurRadius: 8,
+                        spreadRadius: 2,
+                        offset: Offset(0, 4))
+                  ],
+                  borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(20),
+                      bottomRight: Radius.circular(20))),
+              child: Column(children: [
                 Container(
-                  padding: EdgeInsets.all(defaultPadding / 10),
-                  height: 41,
-                  width: 41,
-                  decoration: BoxDecoration(
-                    color: Colors.white, // Define the white color
-                    shape: BoxShape.circle,
-                    border: Border.all(width: 2, color: Colors.white),
-                    image: DecorationImage(
-                      image: NetworkImage(profile[
-                          'imageUrl']), // Make sure `img` is a valid URL
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-                SizedBox(
-                    width:
-                        16), // Give some horizontal space between the container and the text
-                Expanded(
-                  child: RichText(
-                    // Use Expanded to take up the remaining space
-                    text: TextSpan(
-                      // Default text style applies to all child TextSpans if not overridden
-                      style: TextStyle(fontSize: 16, color: Colors.white),
-                      children: <TextSpan>[
-                        // First line (bold)
-                        TextSpan(
-                          text: messageParts[0] + '\n', // Add the newline back
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        // Remaining text
-                        if (messageParts.length > 1)
-                          TextSpan(
-                            text: messageParts
-                                .sublist(1)
-                                .join('\n'), // Join back the remaining parts
-                            // No need to specify a style here unless you want to change it from the default
-                          ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
+                    height: topPadding,
+                    color: Colors
+                        .transparent), // Transparent container to push the content to below the dynamic island
+                Row(
+                  children: [
+                    Container(
+                        padding: EdgeInsets.all(4),
+                        height: 41,
+                        width: 41,
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            shape: BoxShape.circle,
+                            border: Border.all(width: 2, color: Colors.white),
+                            image: DecorationImage(
+                                image: NetworkImage(profile['imageUrl']),
+                                fit: BoxFit.cover))),
+                    SizedBox(width: 16),
+                    Expanded(
+                      child: RichText(
+                        text: TextSpan(
+                            style: TextStyle(color: Colors.black),
+                            children: <TextSpan>[
+                              TextSpan(
+                                  text: '${messageParts[0]}\n',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20)),
+                              if (messageParts.length > 1)
+                                TextSpan(
+                                    text: messageParts.sublist(1).join('\n'),
+                                    style: TextStyle(fontSize: 18))
+                            ]),
+                      ),
+                    )
+                  ],
+                )
+              ]))),
     );
 
     // Find the overlay and insert the created entry
-    Overlay.of(context)?.insert(overlayEntry);
+    Overlay.of(context).insert(overlayEntry);
 
     // Automatically remove the overlay after 3 seconds
     Future.delayed(Duration(seconds: 3)).then((_) {
@@ -485,34 +461,6 @@ class HomePageState extends State<HomePage> {
       curve: Curves.easeInOut, // Animation curve
     );
   }
-
-// Usage:
-
-  // void _openLikedYouModal(BuildContext context, Map<String, dynamic> profile) {
-  //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-  //     content: Text(
-  //         '${profile["name"]} has liked you, head over to message inbox to chat now!'),
-  //     duration:
-  //         Duration(seconds: 2), // The notification will last for a few seconds
-  //     behavior: SnackBarBehavior
-  //         .floating, // This makes it floating above the bottom of the screen
-  //   )
-  //       );
-  // }
-
-  // void _goToMessageChat(Map<String, dynamic> profile) {
-  //   matchedUser = [];
-  //   // log(profile["username"]);
-  //   var existingProfile = discoverItems.firstWhere(
-  //     (item) => item["username"] == profile["username"],
-  //   );
-
-  //   matchedUser.add(existingProfile);
-
-  //   Navigator.of(context).push(
-  //     MaterialPageRoute(builder: (context) => MessageChatPage()),
-  //   );
-  // }
 
   void _sendMessage(String text, Map<String, dynamic> profile) {
     bool isTextClean = _checkMessageRequirements(text, profile);
@@ -600,15 +548,8 @@ class HomePageState extends State<HomePage> {
       "dateTime": DateTime.now(),
     });
 
-    // log('Sending message: $text');
     discoverItems.insert(0, matchedUser[0]);
-    // log(activities.toString());
-    // log(matchedUser.toString());
 
-    // Navigator.of(context).push(
-    //   MaterialPageRoute(builder: (context) => MessageChatPage()),
-    // );
-    
     Navigator.of(context).pop();
     _openMessageChatModal(context, profile);
     fetchMessageController(text);
@@ -650,7 +591,7 @@ class HomePageState extends State<HomePage> {
         children: [
           Text(messageSent ? "You said:\n" : "",
               style: TextStyle(fontWeight: FontWeight.bold)),
-          Text(messageSent ? "${messageController.text}" : ""),
+          Text(messageSent ? messageController.text : ""),
 
           // Only show the "Keep Browsing" button if a message has been sent
           if (messageSent)
