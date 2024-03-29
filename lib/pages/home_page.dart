@@ -246,7 +246,7 @@ class HomePageState extends State<HomePage> {
             _buildCircleButton(
               "assets/images/like.svg",
               () => _showTopSnackBar(context, profile,
-                  "Yes! It's a match!\n${profile['name']} has liked you!"),
+                  "It's a link!\nHooray! You have matched with ${profile['name']}!"),
             )
           else
             _buildCircleButton(
@@ -322,7 +322,7 @@ class HomePageState extends State<HomePage> {
               effectivePadding, // Adjusts for keyboard and adds extra space
           child: Container(
             padding: EdgeInsets.all(
-                16.0), // Use your default padding variable as needed
+                16.0),
             child: Column(
               mainAxisSize:
                   MainAxisSize.min, // To make the bottom sheet fit its content
@@ -342,26 +342,12 @@ class HomePageState extends State<HomePage> {
                 ),
                 SizedBox(height: defaultSmallPadding),
                 Text(
-                  profile["username"],
+                  profile["name"],
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
-                SizedBox(height: defaultSmallPadding),
-                Text(
-                  "Introduce yourself",
-                  overflow: TextOverflow.ellipsis,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                SizedBox(height: defaultSmallPadding),
-                // Your MessageBar widget here
-                Column(
-                  children: [
-                    // Other widgets
-                    _messageInputOrBrowsingButton(profile),
-                  ],
-                )
+                _messageInputOrBrowsingButton(profile),
               ],
             ),
           ),
@@ -583,16 +569,15 @@ class HomePageState extends State<HomePage> {
     });
   }
 
-  // Replace your TextField with this method
   Widget _messageInputOrBrowsingButton(Map<String, dynamic> profile) {
     if (messageSent) {
       // If the message has been sent, show the "Keep Browsing" button
       return Column(
         children: [
-          Text(messageSent ? "You said:\n" : "",
+          SizedBox(width: MediaQuery.of(context).size.width, height: 0),
+          Text(messageSent ? "You said:" : "",
               style: TextStyle(fontWeight: FontWeight.bold)),
           Text(messageSent ? messageController.text : ""),
-
           // Only show the "Keep Browsing" button if a message has been sent
           if (messageSent)
             ElevatedButton(
@@ -607,17 +592,26 @@ class HomePageState extends State<HomePage> {
       );
     } else {
       // If no message has been sent, show the TextField
-      return TextField(
-        controller: messageController,
-        decoration: InputDecoration(
-          hintText: 'Type a message...',
-          suffixIcon: IconButton(
-            icon: Icon(Icons.send),
-            onPressed: () => _sendMessage(messageController.text, profile),
-          ),
+      return Column(children: [
+        Text(
+          "Introduce yourself",
+          overflow: TextOverflow.ellipsis,
+          textAlign: TextAlign.center,
+          style: TextStyle(fontWeight: FontWeight.bold),
         ),
-        onSubmitted: (text) => _sendMessage(text, profile),
-      );
+        SizedBox(height: defaultSmallPadding),
+        TextField(
+          controller: messageController,
+          decoration: InputDecoration(
+            hintText: 'Type a message...',
+            suffixIcon: IconButton(
+              icon: Icon(Icons.send),
+              onPressed: () => _sendMessage(messageController.text, profile),
+            ),
+          ),
+          onSubmitted: (text) => _sendMessage(text, profile),
+        )
+      ]);
     }
   }
 }
