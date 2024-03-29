@@ -91,7 +91,7 @@ List<Map<String, dynamic>> discoverItems = [
     "name": "Hadley",
     "age": "25",
     "passion": "Graphic Designer",
-    "likedYou": false,
+    "likedYou": true,
     "isMatched": false,
     "isUnread": false,
     "distance": "4.8 km",
