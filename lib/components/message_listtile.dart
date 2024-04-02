@@ -8,10 +8,10 @@ class MessageListTitle extends StatelessWidget {
   final VoidCallback onPressed;
 
   const MessageListTitle({
-    Key? key,
+    super.key,
     this.itemList,
     required this.onPressed,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +64,10 @@ class MessageListTitle extends StatelessWidget {
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                           Text(
-                            itemList["message"].last["text"],
+                            itemList["message"] != null &&
+                                    itemList["message"].isNotEmpty
+                                ? itemList["message"].last["text"]
+                                : 'No messages', // Default text if message is null or empty
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),

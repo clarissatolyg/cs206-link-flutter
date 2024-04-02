@@ -74,7 +74,7 @@ class _MessagePageState extends State<MessagePage> {
     return ListView(
       children: [
         MessageTitle(
-          title: "Activities",
+          title: "Recent",
         ),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,

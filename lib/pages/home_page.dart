@@ -5,6 +5,7 @@ import 'package:link_flutter/components/circle_button.dart';
 import 'package:link_flutter/components/box_svg_button.dart';
 import 'package:link_flutter/dummy_data/home_page_json.dart';
 import 'package:link_flutter/dummy_data/message_page_json.dart';
+import 'dart:math';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -24,7 +25,8 @@ class HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    items = discoverItems;
+    discoverItems.shuffle(Random());
+    items = List.from(discoverItems);
   }
 
   @override
@@ -449,13 +451,15 @@ class HomePageState extends State<HomePage> {
   }
 
   void _sendMessage(String text, Map<String, dynamic> profile) {
-    bool isTextClean = _checkMessageRequirements(text, profile);
-    if (isTextClean == true) {
-      _goToMessageChatPage(context, text, profile);
-    } else {
-      _showWarningDialog(context, text, profile);
-    }
+  var textLower = text.toLowerCase(); // Convert text to lowercase
+  bool isTextClean = _checkMessageRequirements(textLower, profile);
+  if (isTextClean == true) {
+    _goToMessageChatPage(context, text, profile);
+  } else {
+    _showWarningDialog(context, text, profile);
   }
+}
+
 
   bool _checkMessageRequirements(String text, Map<String, dynamic> profile) {
     bool isTextClean = true;
@@ -584,7 +588,7 @@ class HomePageState extends State<HomePage> {
               onPressed: () {
                 _resetMessageInput(); // Optional: Clear the message input
                 Navigator.of(context).pop();
-                _goToNextProfile(); // Navigate to the next profile
+                // _goToNextProfile(); // Navigate to the next profile
               },
               child: Text('Keep Browsing'),
             ),
