@@ -151,4 +151,4 @@ List<Map<String, dynamic>> matchedUser = [];
 //   // },
 // ];
 
-List cleanList = ["hi", "hello", "bitch", "fuck", "stupid", "idiot", "dumb"];
+List cleanList = ["hi", "hello", "how are you", "you're pretty", "stupid", "idiot", "dumb"];

@@ -3,7 +3,7 @@ List<Map<String, dynamic>> discoverItems = [
     "userId": "0",
     "imageUrl":
         "https://images.unsplash.com/photo-1621784564114-6eea05b89863?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTZ8fGJlYXV0aWZ1bCUyMGxhZHl8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
-    "username": "leilani1",
+    "username": "leilani47",
     "name": "Leilani",
     "age": "19",
     "passion": "Chef",
@@ -61,7 +61,7 @@ List<Map<String, dynamic>> discoverItems = [
     "userId": "2",
     "imageUrl":
         "https://images.unsplash.com/photo-1621184455862-c163dfb30e0f?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTd8fGJlYXV0aWZ1bCUyMGxhZHl8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
-    "username": "reagan1",
+    "username": "reaganlovescake",
     "name": "Reagan",
     "age": "24",
     "passion": "Environmental Activist",
@@ -87,7 +87,7 @@ List<Map<String, dynamic>> discoverItems = [
     "userId": "3",
     "imageUrl":
         "https://images.unsplash.com/photo-1516726817505-f5ed825624d8?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTR8fGJlYXV0aWZ1bCUyMGxhZHl8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
-    "username": "hadley1",
+    "username": "hadleybieber",
     "name": "Hadley",
     "age": "25",
     "passion": "Graphic Designer",
@@ -105,7 +105,7 @@ List<Map<String, dynamic>> discoverItems = [
     "userId": "8",
     "imageUrl":
         "https://images.unsplash.com/photo-1529911194209-8578109840df?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80",
-    "username": "renee1",
+    "username": "renee123",
     "name": "Renee",
     "age": "23",
     "passion": "Professional model",
@@ -129,7 +129,7 @@ List<Map<String, dynamic>> discoverItems = [
     "userId": "9",
     "imageUrl":
         "https://images.unsplash.com/photo-1631590530741-2d1ff07ce42e?ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwxNHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
-    "username": "taniaparker1",
+    "username": "taniaparker",
     "name": "Tania Parker",
     "age": "23",
     "passion": "Fashion designer",
@@ -147,7 +147,7 @@ List<Map<String, dynamic>> discoverItems = [
     "userId": "10",
     "imageUrl":
         "https://images.unsplash.com/photo-1631341183338-0b6f5f9d0d99?ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw0N3x8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
-    "username": "kamryn1",
+    "username": "kamrynbenzee",
     "name": "Kamryn",
     "age": "19",
     "likedYou": false,
@@ -165,7 +165,7 @@ List<Map<String, dynamic>> discoverItems = [
     "userId": "11",
     "imageUrl":
         "https://images.unsplash.com/photo-1631345288967-dad5dce64717?ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw2N3x8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
-    "username": "abril1",
+    "username": "abril2",
     "name": "Abril",
     "age": "20",
     "likedYou": false,
@@ -183,7 +183,7 @@ List<Map<String, dynamic>> discoverItems = [
     "userId": "4",
     "imageUrl":
         "https://images.unsplash.com/photo-1440589473619-3cde28941638?ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8YmVhdXRpZnVsJTIwbGFkeXxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
-    "username": "roksolana1",
+    "username": "roksolana_4400",
     "name": "Roksolana",
     "age": "20",
     "passion": "Animal Rights Advocate",
@@ -209,7 +209,7 @@ List<Map<String, dynamic>> discoverItems = [
     "userId": "5",
     "imageUrl":
         "https://images.unsplash.com/photo-1524502397800-2eeaad7c3fe5?ixid=MnwxMjA3fDB8MHxzZWFyY2h8N3x8YmVhdXRpZnVsJTIwbGFkeXxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
-    "username": "raamin1",
+    "username": "raamin",
     "name": "Raamin",
     "age": "19",
     "passion": "Fitness Trainer",
@@ -235,7 +235,7 @@ List<Map<String, dynamic>> discoverItems = [
     "userId": "6",
     "imageUrl":
         "https://images.unsplash.com/photo-1610879247468-ba0c12f0d709?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NXx8YmVhdXRpZnVsJTIwbGFkeXxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
-    "username": "rafaella1",
+    "username": "rafaella<3",
     "name": "Rafaella",
     "age": "24",
     "passion": "Writer",
@@ -265,7 +265,7 @@ List<Map<String, dynamic>> discoverItems = [
     "userId": "7",
     "imageUrl":
         "https://images.unsplash.com/photo-1612874470096-d93a610de87b?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8YmVhdXRpZnVsJTIwbGFkeXxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
-    "username": "diniz1",
+    "username": "diniz",
     "name": "Diniz",
     "age": "22",
     "passion": "Humanitarian Worker",
@@ -294,7 +294,7 @@ List<Map<String, dynamic>> discoverItems = [
     "userId": "12",
     "imageUrl":
         "https://images.unsplash.com/photo-1535704882196-765e5fc62a53?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTJ8fGJldXRpZnVsJTIwZ2lybHxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
-    "username": "moonchild1",
+    "username": "moonchild",
     "name": "Moonchild",
     "age": "25",
     "passion": "Student",

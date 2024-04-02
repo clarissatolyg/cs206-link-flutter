@@ -131,7 +131,8 @@ class _MessageChatPageState extends State<MessageChatPage> {
   }
 
   void _sendMessage(String text, Map<String, dynamic> existingProfile) async {
-    bool isTextClean = _checkMessageRequirements(text, existingProfile);
+    var textLower = text.toLowerCase();
+    bool isTextClean = _checkMessageRequirements(textLower, existingProfile);
     if (isTextClean == true) {
       _sendChatAnyways(context, text, existingProfile);
     } else {
@@ -151,7 +152,7 @@ class _MessageChatPageState extends State<MessageChatPage> {
         isTextClean = false;
       }
     }
-
+  
     return isTextClean;
   }
 
@@ -173,6 +174,8 @@ class _MessageChatPageState extends State<MessageChatPage> {
             ),
             TextButton(
               onPressed: () {
+                Navigator.of(context)
+                    .pop();
                 _sendChatAnyways(context, text, profile); 
               },
               child: Text('Send Anyway'),
